@@ -1,7 +1,7 @@
 app_name = "clinic_satusehat"
 app_title = "Clinic Satusehat"
 app_publisher = "rakha"
-app_description = "reimplement satusehat clinic"
+app_description = "reimplement clinic satusehat"
 app_email = "rakhafausta07@gmail.com"
 app_license = "mit"
 

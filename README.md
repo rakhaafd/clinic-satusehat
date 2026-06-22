@@ -1,6 +1,6 @@
 ### Clinic Satusehat
 
-reimplement satusehat clinic
+reimplement clinic satusehat
 
 ### Installation
 

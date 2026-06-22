@@ -3,7 +3,7 @@ name = "clinic_satusehat"
 authors = [
     { name = "rakha", email = "rakhafausta07@gmail.com"}
 ]
-description = "reimplement satusehat clinic"
+description = "reimplement clinic satusehat"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
