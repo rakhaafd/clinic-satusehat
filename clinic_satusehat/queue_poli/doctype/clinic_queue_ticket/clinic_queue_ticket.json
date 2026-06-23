@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2023-10-15 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "queue_number",
+  "patient_name",
+  "status",
+  "source_registration_ticket",
+  "encounter_ref",
+  "practitioner",
+  "clinic_room"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "POLI-.YYYY.-.MM.-.DD.-.####"
+  },
+  {
+   "fieldname": "queue_number",
+   "fieldtype": "Data",
+   "label": "Queue Number",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "source_registration_ticket.patient",
+   "fieldname": "patient_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "default": "Menunggu",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Menunggu\nDipanggil\nDiperiksa\nSelesai\nDilewati",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "source_registration_ticket.destination_clinic",
+   "fieldname": "clinic_room",
+   "fieldtype": "Link",
+   "label": "Clinic Room",
+   "options": "Queue Counter"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "encounter_ref",
+   "fieldtype": "Link",
+   "label": "Patient Encounter",
+   "options": "Patient Encounter"
+  },
+  {
+   "fieldname": "source_registration_ticket",
+   "fieldtype": "Link",
+   "label": "Source Registration Ticket",
+   "options": "Registration Queue Ticket"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-23 09:38:40.942054",
+ "modified_by": "Administrator",
+ "module": "Queue Poli",
+ "name": "Clinic Queue Ticket",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

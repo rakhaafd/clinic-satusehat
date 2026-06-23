@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "creation": "2023-10-15 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "hospital_name",
+  "hospital_logo",
+  "running_text",
+  "use_web_speech_api",
+  "voice_accent"
+ ],
+ "fields": [
+  {
+   "fieldname": "hospital_name",
+   "fieldtype": "Data",
+   "label": "Hospital Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hospital_logo",
+   "fieldtype": "Attach Image",
+   "label": "Hospital Logo"
+  },
+  {
+   "fieldname": "running_text",
+   "fieldtype": "Text",
+   "label": "Running Text"
+  },
+  {
+   "default": "1",
+   "fieldname": "use_web_speech_api",
+   "fieldtype": "Check",
+   "label": "Use Web Speech API"
+  },
+  {
+   "fieldname": "voice_accent",
+   "fieldtype": "Select",
+   "label": "Voice Accent",
+   "options": "id-ID\nen-US",
+   "default": "id-ID"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2023-10-15 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Queue Core",
+ "name": "Queue Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

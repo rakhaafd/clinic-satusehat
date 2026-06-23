@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2023-10-15 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "source_clinic_ticket",
+  "handed_counter",
+  "queue_number",
+  "patient_name",
+  "prescription_ref",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "APT-.YYYY.-.MM.-.DD.-.####"
+  },
+  {
+   "fetch_from": "source_clinic_ticket.queue_number",
+   "fieldname": "queue_number",
+   "fieldtype": "Data",
+   "label": "Queue Number",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "source_clinic_ticket.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prescription_ref",
+   "fieldtype": "Link",
+   "label": "Prescription Ref",
+   "options": "Patient Encounter"
+  },
+  {
+   "default": "Meracik",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Meracik\nMenunggu\nDipanggil\nSelesai\nDilewati",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "source_clinic_ticket.clinic_room",
+   "fieldname": "handed_counter",
+   "fieldtype": "Data",
+   "label": "Handed Counter",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_clinic_ticket",
+   "fieldtype": "Link",
+   "label": "Source Clinic Ticket",
+   "options": "Clinic Queue Ticket",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-22 14:03:35.313883",
+ "modified_by": "Administrator",
+ "module": "Queue Apotek",
+ "name": "Pharmacy Queue Ticket",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

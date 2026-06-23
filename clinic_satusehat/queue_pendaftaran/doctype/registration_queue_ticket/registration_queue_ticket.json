@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2023-10-15 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "clinic_registration_section",
+  "naming_series",
+  "queue_number",
+  "queue_type",
+  "status",
+  "patient",
+  "called_at",
+  "assigned_counter",
+  "destination_clinic"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "REG-.YYYY.-.MM.-.DD.-.####"
+  },
+  {
+   "fieldname": "queue_number",
+   "fieldtype": "Data",
+   "label": "Queue Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "queue_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Queue Type",
+   "options": "Pasien Baru\nPasien Lama\nPrioritas",
+   "reqd": 1
+  },
+  {
+   "default": "Menunggu",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Menunggu\nDipanggil\nSelesai\nDilewati",
+   "reqd": 1
+  },
+  {
+   "fieldname": "called_at",
+   "fieldtype": "Datetime",
+   "label": "Called At",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assigned_counter",
+   "fieldtype": "Link",
+   "label": "Assigned Counter",
+   "options": "Queue Counter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient Name",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.status == 'Selesai'",
+   "fieldname": "destination_clinic",
+   "fieldtype": "Link",
+   "label": "Destination Clinic",
+   "options": "Queue Counter"
+  },
+  {
+   "fieldname": "clinic_registration_section",
+   "fieldtype": "Section Break",
+   "label": "Registration Ticket"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-22 20:24:15.844607",
+ "modified_by": "Administrator",
+ "module": "Queue Pendaftaran",
+ "name": "Registration Queue Ticket",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,1 +1,5 @@
 Clinic Satusehat
+Queue Core
+Queue Pendaftaran
+Queue Poli
+Queue Apotek
