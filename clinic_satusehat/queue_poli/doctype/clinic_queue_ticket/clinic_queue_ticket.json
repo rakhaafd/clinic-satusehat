@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "clinic_ticket_section",
   "naming_series",
   "queue_number",
   "patient_name",
@@ -68,11 +69,16 @@
    "fieldtype": "Link",
    "label": "Source Registration Ticket",
    "options": "Registration Queue Ticket"
+  },
+  {
+   "fieldname": "clinic_ticket_section",
+   "fieldtype": "Section Break",
+   "label": "Clinic Ticket"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-23 09:38:40.942054",
+ "modified": "2026-06-23 10:32:13.496828",
  "modified_by": "Administrator",
  "module": "Queue Poli",
  "name": "Clinic Queue Ticket",

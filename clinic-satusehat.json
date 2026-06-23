@@ -1,0 +1,1072 @@
+{
+  "info": {
+    "name": "clinic-satusehat",
+    "description": null,
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/method/login",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "method",
+                "login"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usr\": \"Administrator\",\n  \"pwd\": \"1212\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/method/logout",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "method",
+                "logout"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usr\": \"Administrator\",\n  \"pwd\": \"1212\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "get session user",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/method/frappe.auth.get_logged_user",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "method",
+                "frappe.auth.get_logged_user"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "master data",
+      "item": [
+        {
+          "name": "patient",
+          "item": [
+            {
+              "name": "get all patient",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Patient",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Patient"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "get patient detail",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Patient/Rakha",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Patient",
+                    "Rakha"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "create patient",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Patient",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Patient"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Budi\",\n  \"last_name\": \"Santoso\",\n  \"sex\": \"Male\",\n  \"blood_group\": \"A Positive\",\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "edit patient",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Patient/Joko Santoso",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Patient",
+                    "Joko Santoso"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Joko\",\n  \"last_name\": \"Mulyo\",\n  \"sex\": \"Male\",\n  \"blood_group\": \"A Positive\",\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "delete patient",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Patient/Joko Santoso",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Patient",
+                    "Joko Santoso"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "practitioner",
+          "item": [
+            {
+              "name": "get all practitioner",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Healthcare Practitioner",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Healthcare Practitioner"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "get practitioner detail",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Healthcare Practitioner/HLC-PRAC-2026-00003",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Healthcare Practitioner",
+                    "HLC-PRAC-2026-00003"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "create practitioner",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Healthcare Practitioner",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Healthcare Practitioner"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Dr. Fulan\",\n  \"sex\": \"Male\",\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "edit practitioner",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Healthcare Practitioner/HLC-PRAC-2026-00004",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Healthcare Practitioner",
+                    "HLC-PRAC-2026-00004"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Dr. Fulin\",\n  \"sex\": \"Male\",\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "delete practitioner",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Healthcare Practitioner/HLC-PRAC-2026-00004",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Healthcare Practitioner",
+                    "HLC-PRAC-2026-00004"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "counter",
+          "item": [
+            {
+              "name": "get all counter",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Queue Counter",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Queue Counter"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "get counter detail",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Queue Counter/Poli THT",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Queue Counter",
+                    "Poli THT"
+                  ],
+                  "query": [],
+                  "variable": []
+                }
+              }
+            },
+            {
+              "name": "create counter",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Queue Counter",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Queue Counter"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"counter_name\": \"Poli THT\",\n  \"counter_type\": \"Poliklinik\", //enum [\"Pendaftaran\", \"Poliklinik\", \"Apotek\"]\n  \"is_active\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "edit counter",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/method/frappe.rename_doc",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "method",
+                    "frappe.rename_doc"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"doctype\": \"Queue Counter\",\n  \"old\": \"Poli THT\",\n  \"new\": \"Poli Mata\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "delete counter",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "",
+                "url": {
+                  "raw": "{{BASE_URL}}/api/resource/Queue Counter/Poli Mata",
+                  "protocol": "",
+                  "host": [
+                    "{{BASE_URL}}"
+                  ],
+                  "path": [
+                    "api",
+                    "resource",
+                    "Queue Counter",
+                    "Poli Mata"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "registration queue ticket",
+      "item": [
+        {
+          "name": "get all registration ticket",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "",
+              "protocol": "",
+              "host": [],
+              "path": [],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "get registration ticket detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Registration Queue Ticket/REG-2026-06-23-0006",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Registration Queue Ticket",
+                "REG-2026-06-23-0006"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "create registration ticket",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Registration Queue Ticket",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Registration Queue Ticket"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"queue_type\": \"Pasien Baru\", // enum [\"Pasien Baru\", \"Pasien Lama\", \"Prioritas\"]\n  \"status\": \"Menunggu\", // enum [\"Menunggu\", \"Dipanggil\", \"Selesai\", \"Dilewati\"]\n  \"patient\": \"Rakha\", // from Patient list\n  \"called_at\": \"2026-06-23 11:30:00\",\n  \"assigned_counter\": \"Loket Pendaftaran\", //from Counter list\n  \"destination_clinic\": \"Poli THT\" //from Counter list\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "edit registration ticket",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Registration Queue Ticket/REG-2026-06-23-0007",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Registration Queue Ticket",
+                "REG-2026-06-23-0007"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"queue_type\": \"Pasien Baru\", // enum [\"Pasien Baru\", \"Pasien Lama\", \"Prioritas\"]\n  \"status\": \"Selesai\", // enum [\"Menunggu\", \"Dipanggil\", \"Selesai\", \"Dilewati\"]\n  \"patient\": \"Rakha\", // from Patient list\n  \"called_at\": \"2026-06-23 11:30:00\",\n  \"assigned_counter\": \"Loket Pendaftaran\", //from Counter list\n  \"destination_clinic\": \"Poli THT\" //from Counter list\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "delete registration ticket",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Registration Queue Ticket/REG-2026-06-23-0007",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Registration Queue Ticket",
+                "REG-2026-06-23-0007"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "clinic queue ticket",
+      "item": [
+        {
+          "name": "get all clinic ticket",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Clinic Queue Ticket",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Clinic Queue Ticket"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "get clinic ticket detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Clinic Queue Ticket/POLI-2026-06-23-0009",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Clinic Queue Ticket",
+                "POLI-2026-06-23-0009"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "edit clinic ticket",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Clinic Queue Ticket/POLI-2026-06-23-0010",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Clinic Queue Ticket",
+                "POLI-2026-06-23-0010"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Diperiksa\", // enum [\"Menunggu\", \"Dipanggil\", \"Diperiksa\", \"Selesai\", \"Dilewati\"]\n  \"encounter_ref\": \"HLC-ENC-2026-00011\", //from Patient Encounter list\n  \"practitioner\": \"HLC-PRAC-2026-00004\" //from Healthcare Practitioner list\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "delete clinic ticket",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Clinic Queue Ticket/POLI-2026-06-23-0010",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Clinic Queue Ticket",
+                "POLI-2026-06-23-0010"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "patient encounter",
+      "item": [
+        {
+          "name": "get all patient encounter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Patient Encounter",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Patient Encounter"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "get patient encounter detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Patient Encounter/HLC-ENC-2026-00011",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Patient Encounter",
+                "HLC-ENC-2026-00011"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pharmacy queue ticket",
+      "item": [
+        {
+          "name": "get all pharmacy ticket",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Pharmacy Queue Ticket",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Pharmacy Queue Ticket"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "get pharmacy ticket detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Pharmacy Queue Ticket/APT-2026-06-23-0006",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Pharmacy Queue Ticket",
+                "APT-2026-06-23-0006"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "edit pharmacy ticket",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Pharmacy Queue Ticket/APT-2026-06-23-0006",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Pharmacy Queue Ticket",
+                "APT-2026-06-23-0006"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Selesai\" //enum [\"Meracik\", \"Menunggu\", \"Dipanggil\", \"Selesai\", \"Dilewati\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "delete pharmacy ticket",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "{{BASE_URL}}/api/resource/Pharmacy Queue Ticket/APT-2026-06-23-0006",
+              "protocol": "",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "resource",
+                "Pharmacy Queue Ticket",
+                "APT-2026-06-23-0006"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://clinic-satusehat.site:8001",
+      "type": "default"
+    }
+  ]
+}

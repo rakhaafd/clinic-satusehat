@@ -5,7 +5,8 @@ class ClinicQueueTicket(Document):
 	def before_insert(self):
 		if not self.queue_number:
 			pass
-	
+
+
 	def after_insert(self):
 		if self.name:
 			parts = self.name.split("-")

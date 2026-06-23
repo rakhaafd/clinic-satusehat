@@ -5,10 +5,11 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "pharmacy_ticket_section",
   "naming_series",
+  "queue_number",
   "source_clinic_ticket",
   "handed_counter",
-  "queue_number",
   "patient_name",
   "prescription_ref",
   "status"
@@ -62,11 +63,16 @@
    "label": "Source Clinic Ticket",
    "options": "Clinic Queue Ticket",
    "reqd": 1
+  },
+  {
+   "fieldname": "pharmacy_ticket_section",
+   "fieldtype": "Section Break",
+   "label": "Pharmacy Ticket"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-22 14:03:35.313883",
+ "modified": "2026-06-23 12:55:38.462684",
  "modified_by": "Administrator",
  "module": "Queue Apotek",
  "name": "Pharmacy Queue Ticket",
