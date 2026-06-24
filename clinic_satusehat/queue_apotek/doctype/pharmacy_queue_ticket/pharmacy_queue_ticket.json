@@ -43,11 +43,11 @@
    "options": "Patient Encounter"
   },
   {
-   "default": "Meracik",
+   "default": "Menunggu",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Meracik\nMenunggu\nDipanggil\nSelesai\nDilewati",
+   "options": "Menunggu\nDipanggil\nSelesai\nDilewati",
    "reqd": 1
   },
   {
@@ -72,7 +72,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-23 12:55:38.462684",
+ "modified": "2026-06-24 15:10:39.563383",
  "modified_by": "Administrator",
  "module": "Queue Apotek",
  "name": "Pharmacy Queue Ticket",

@@ -53,10 +53,11 @@
    "options": "Queue Counter"
   },
   {
+   "fetch_from": "encounter_ref.practitioner_name",
    "fieldname": "practitioner",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Practitioner",
-   "options": "Healthcare Practitioner"
+   "read_only": 1
   },
   {
    "fieldname": "encounter_ref",
@@ -78,7 +79,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-23 10:32:13.496828",
+ "modified": "2026-06-24 16:35:13.709807",
  "modified_by": "Administrator",
  "module": "Queue Poli",
  "name": "Clinic Queue Ticket",
