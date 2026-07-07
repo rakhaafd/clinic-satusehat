@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PAYLOAD-.YYYY.-.MM.-.DD.-.####",
+ "creation": "2026-07-06 09:05:07.668231",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "config_section",
+  "resource_type",
+  "organization_id",
+  "location_id",
+  "patient_encounter",
+  "col_break_config",
+  "patient_ihs",
+  "practitioner_ihs",
+  "ref_section",
+  "encounter_id",
+  "payload_section",
+  "generated_payload",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "config_section",
+   "fieldtype": "Section Break",
+   "label": "Konfigurasi"
+  },
+  {
+   "fieldname": "resource_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Resource Type",
+   "options": "Encounter\nCondition\nObservation\nProcedure\nComposition\nMedication\nMedicationRequest\nMedicationDispense",
+   "reqd": 1
+  },
+  {
+   "description": "Pilih kunjungan untuk otomatis mengisi IHS Pasien dan Dokter",
+   "fieldname": "patient_encounter",
+   "fieldtype": "Link",
+   "label": "Tarik Data dari Kunjungan (Patient Encounter)",
+   "options": "Patient Encounter"
+  },
+  {
+   "default": "832d59a2-aa46-40cd-94de-7831bbda0a34",
+   "fieldname": "organization_id",
+   "fieldtype": "Data",
+   "label": "Organization ID"
+  },
+  {
+   "default": "b017aa54-f1df-4ec2-9d84-8823815d7228",
+   "fieldname": "location_id",
+   "fieldtype": "Data",
+   "label": "Location ID"
+  },
+  {
+   "fieldname": "col_break_config",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS Number"
+  },
+  {
+   "fieldname": "practitioner_ihs",
+   "fieldtype": "Data",
+   "label": "Practitioner IHS Number"
+  },
+  {
+   "fieldname": "ref_section",
+   "fieldtype": "Section Break",
+   "label": "Referensi Tambahan"
+  },
+  {
+   "fieldname": "encounter_id",
+   "fieldtype": "Data",
+   "label": "Encounter ID (Dari Kemenkes)"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "payload_section",
+   "fieldtype": "Section Break",
+   "label": "Hasil Generate & Log"
+  },
+  {
+   "fieldname": "generated_payload",
+   "fieldtype": "Code",
+   "label": "Generated FHIR Payload",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-07 10:59:00.742598",
+ "modified_by": "Administrator",
+ "module": "Queue Core",
+ "name": "SatuSehat Payload Generator",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

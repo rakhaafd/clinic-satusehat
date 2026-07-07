@@ -25,7 +25,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Counter Type",
-   "options": "Pendaftaran\nPoliklinik\nApotek",
+   "options": "Pendaftaran\nPoliklinik",
    "reqd": 1
   },
   {
@@ -43,7 +43,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-23 11:26:40.642783",
+ "modified": "2026-06-26 09:34:42.935875",
  "modified_by": "Administrator",
  "module": "Queue Core",
  "name": "Queue Counter",
