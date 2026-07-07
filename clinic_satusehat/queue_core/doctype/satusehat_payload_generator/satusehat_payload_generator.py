@@ -56,28 +56,28 @@ class SatuSehatPayloadGenerator(Document):
 			
 		self.patient_ihs = "GANTI_DENGAN_IHS_PASIEN"
 		self.practitioner_ihs = "GANTI_DENGAN_IHS_DOKTER"
-		self.location_id = "GANTI_DENGAN_ID_LOKASI_RUANGAN"
+		self.location_id = "b017aa54-f1df-4ec2-9d84-8823815d7228"
 		self.organization_id = frappe.conf.get("satusehat_organization_id") or "GANTI_DENGAN_ID_KLINIK"
-		self.enc_ref_id = "GANTI_DENGAN_ID_ENCOUNTER_SEBELUMNYA"
+		self.enc_ref_id = "2c83ff64-bc03-4e5d-b527-fc208d5243ff"
 		
 		if encounter_doc:
 			self.enc_ref_id = getattr(self, "enc_ref_id_override", "") or self.enc_ref_id
 			if encounter_doc.patient:
 				try:
 					patient = frappe.get_doc("Patient", encounter_doc.patient)
-					self.patient_ihs = patient.custom_ihs_number or self.patient_ihs
+					self.patient_ihs = patient.get("satusehat_id") or self.patient_ihs
 				except: pass
 				
 			if encounter_doc.practitioner:
 				try:
 					practitioner = frappe.get_doc("Healthcare Practitioner", encounter_doc.practitioner)
-					self.practitioner_ihs = practitioner.custom_ihs_number or self.practitioner_ihs
+					self.practitioner_ihs = practitioner.get("satusehat_id") or self.practitioner_ihs
 				except: pass
 				
 			if encounter_doc.medical_department:
 				try:
 					dept = frappe.get_doc("Medical Department", encounter_doc.medical_department)
-					self.location_id = dept.custom_ihs_location_id or self.location_id
+					self.location_id = dept.get("satusehat_id") or dept.get("custom_ihs_location_id") or self.location_id
 				except: pass
 
 		builder = get_builder(self.resource_type)
