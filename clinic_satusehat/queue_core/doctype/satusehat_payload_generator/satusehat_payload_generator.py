@@ -31,6 +31,7 @@ class SatuSehatPayloadGenerator(Document):
 		# Preserve manual ID overrides if user edited the JSON before saving
 		self.med_ref_id = "GANTI_DENGAN_ID_MEDICATION_SEBELUMNYA"
 		self.req_ref_id = "GANTI_DENGAN_ID_MEDREQ_SEBELUMNYA"
+		self.srv_ref_id = "GANTI_DENGAN_ID_SERVICEREQUEST_SEBELUMNYA"
 		if self.generated_payload:
 			try:
 				old_payload = json.loads(self.generated_payload)
@@ -42,6 +43,10 @@ class SatuSehatPayloadGenerator(Document):
 					ref_str = old_payload["authorizingPrescription"][0]["reference"]
 					if ref_str.startswith("MedicationRequest/"):
 						self.req_ref_id = ref_str.replace("MedicationRequest/", "")
+				if "basedOn" in old_payload and old_payload["basedOn"]:
+					ref_str = old_payload["basedOn"][0]["reference"]
+					if ref_str.startswith("ServiceRequest/"):
+						self.srv_ref_id = ref_str.replace("ServiceRequest/", "")
 			except:
 				pass
 		self.generate_payload()

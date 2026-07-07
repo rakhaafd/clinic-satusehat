@@ -32,7 +32,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Resource Type",
-   "options": "Encounter\nCondition\nObservation\nProcedure\nComposition\nMedication\nMedicationRequest\nMedicationDispense",
+   "options": "Encounter\nCondition\nObservation\nProcedure\nComposition\nMedication\nMedicationRequest\nMedicationDispense\nAllergyIntolerance\nImagingStudy\nServiceRequest\nClinicalImpression",
    "reqd": 1
   },
   {

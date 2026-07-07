@@ -3,6 +3,10 @@ from .condition import ConditionBuilder
 from .medication import MedicationBuilder
 from .medication_request import MedicationRequestBuilder
 from .medication_dispense import MedicationDispenseBuilder
+from .allergy_intolerance import AllergyIntoleranceBuilder
+from .imaging_study import ImagingStudyBuilder
+from .service_request import ServiceRequestBuilder
+from .clinical_impression import ClinicalImpressionBuilder
 
 _BUILDERS = {
     "Encounter": EncounterBuilder,
@@ -10,6 +14,10 @@ _BUILDERS = {
     "Medication": MedicationBuilder,
     "MedicationRequest": MedicationRequestBuilder,
     "MedicationDispense": MedicationDispenseBuilder,
+    "AllergyIntolerance": AllergyIntoleranceBuilder,
+    "ImagingStudy": ImagingStudyBuilder,
+    "ServiceRequest": ServiceRequestBuilder,
+    "ClinicalImpression": ClinicalImpressionBuilder,
 }
 
 def get_builder(resource_type):
