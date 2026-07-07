@@ -3,3 +3,4 @@ Queue Core
 Queue Pendaftaran
 Queue Poli
 Queue Apotek
+Queue Prescription

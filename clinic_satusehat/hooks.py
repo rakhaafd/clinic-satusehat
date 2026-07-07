@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["frappe/erpnext", "frappe/healthcare"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -129,42 +129,31 @@ app_license = "mit"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Sales Invoice": "clinic_satusehat.custom_doctype.sales_invoice.HealthcareSalesInvoice",
+}
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Patient Encounter": {
+	},
+	"Vital Signs": {
+	},
+	"Sales Invoice": {
+	},
+}
+fixtures = ["Custom Field", "Property Setter"]
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"clinic_satusehat.tasks.all"
-# 	],
-# 	"daily": [
-# 		"clinic_satusehat.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"clinic_satusehat.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"clinic_satusehat.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"clinic_satusehat.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"all": [
+	]
+}
 
 # Testing
 # -------

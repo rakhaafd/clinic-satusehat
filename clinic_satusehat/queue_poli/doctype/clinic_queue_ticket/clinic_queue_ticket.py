@@ -39,16 +39,44 @@ class ClinicQueueTicket(Document):
 	def on_update(self):
 		from frappe.utils import today
 		
-		# Automatically call the next patient in the queue if current moves to Diperiksa, Selesai, or Dilewati
-		if self.has_value_changed("status") and self.status in ["Diperiksa", "Selesai", "Dilewati"]:
-			next_ticket = frappe.get_all(
-				"Clinic Queue Ticket",
-				filters={"status": "Menunggu", "creation": [">=", today()]},
-				order_by="creation asc",
-				limit=1
-			)
-			if next_ticket:
-				frappe.db.set_value("Clinic Queue Ticket", next_ticket[0].name, "status", "Dipanggil")
+		if self.has_value_changed("status"):
+			if self.status == "Diperiksa":
+				# Next Menunggu -> Dipanggil
+				next_menunggu = frappe.get_all(
+					"Clinic Queue Ticket",
+					filters={"status": "Menunggu", "creation": [">=", today()]},
+					order_by="creation asc",
+					limit=1
+				)
+				if next_menunggu:
+					frappe.db.set_value("Clinic Queue Ticket", next_menunggu[0].name, "status", "Dipanggil")
+			
+			elif self.status in ["Selesai", "Dilewati"]:
+				# Next Dipanggil -> Diperiksa
+				next_dipanggil = frappe.get_all(
+					"Clinic Queue Ticket",
+					filters={"status": "Dipanggil", "creation": [">=", today()]},
+					order_by="creation asc",
+					limit=1
+				)
+				if next_dipanggil:
+					# This will trigger on_update for the next ticket
+					# which will then pull the next Menunggu to Dipanggil
+					doc_b = frappe.get_doc("Clinic Queue Ticket", next_dipanggil[0].name)
+					doc_b.status = "Diperiksa"
+					doc_b.save(ignore_permissions=True)
+				else:
+					# If no one is Dipanggil, just pull the next Menunggu straight to Diperiksa
+					next_menunggu = frappe.get_all(
+						"Clinic Queue Ticket",
+						filters={"status": "Menunggu", "creation": [">=", today()]},
+						order_by="creation asc",
+						limit=1
+					)
+					if next_menunggu:
+						doc_b = frappe.get_doc("Clinic Queue Ticket", next_menunggu[0].name)
+						doc_b.status = "Diperiksa"
+						doc_b.save(ignore_permissions=True)
 
 		if self.status == "Selesai" and getattr(self, "encounter_ref", None):
 			# Check if encounter has drug prescription
