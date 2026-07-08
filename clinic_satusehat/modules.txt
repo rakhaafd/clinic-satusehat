@@ -4,3 +4,21 @@ Queue Pendaftaran
 Queue Poli
 Queue Apotek
 Queue Prescription
+Encounter
+Condition
+Observation
+Procedure
+Composition
+Medication
+MedicationDispense SatuSehat
+MedicationDispense Validator
+AllergyIntolerance SatuSehat
+AllergyIntolerance Validator
+ServiceRequest SatuSehat
+ServiceRequest Validator
+ImagingStudy SatuSehat
+ImagingStudy Validator
+ImagingStudyClinicalImpression SatuSehat
+ClinicalImpression Validator
+AllergyIntolerance
+ClinicalImpression

@@ -11,15 +11,16 @@
   "resource_type",
   "satusehat_id",
   "status_code",
-  "response_json"
+  "response_json",
+  "reference_doctype"
  ],
  "fields": [
   {
    "fieldname": "reference_doc",
-   "fieldtype": "Link",
+   "fieldtype": "Dynamic Link",
    "in_list_view": 1,
    "label": "Reference Doc",
-   "options": "SatuSehat Payload Generator"
+   "options": "reference_doctype"
   },
   {
    "fieldname": "resource_type",
@@ -44,13 +45,20 @@
    "fieldtype": "Code",
    "label": "Response JSON",
    "options": "JSON"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Reference DocType",
+   "options": "DocType"
   }
  ],
  "grid_page_length": 50,
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-07 11:44:21.581185",
+ "modified": "2026-07-08 09:46:00.780971",
  "modified_by": "Administrator",
  "module": "Queue Core",
  "name": "SatuSehat API Log",

@@ -1,0 +1,174 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PRO-SS-{YYYY}-{MM}-{####}",
+ "creation": "2026-07-08 12:04:06.833596",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "encounter_satusehat",
+  "clinical_procedure",
+  "column_break_1",
+  "patient",
+  "patient_name",
+  "patient_ihs",
+  "practitioner_ihs",
+  "satusehat_encounter_id",
+  "section_break_code",
+  "procedure_code",
+  "column_break_code",
+  "procedure_display",
+  "section_break_1",
+  "status",
+  "satusehat_id",
+  "section_break_2",
+  "payload_json",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "encounter_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Encounter SatuSehat",
+   "options": "Encounter SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "clinical_procedure",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Clinical Procedure",
+   "options": "Clinical Procedure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "clinical_procedure.patient",
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "clinical_procedure.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS",
+   "read_only": 1
+  },
+  {
+   "fieldname": "practitioner_ihs",
+   "fieldtype": "Data",
+   "label": "Practitioner IHS",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.satusehat_id",
+   "fieldname": "satusehat_encounter_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat Encounter ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_code",
+   "fieldtype": "Section Break",
+   "label": "Procedure Codes"
+  },
+  {
+   "description": "Contoh: 87.44",
+   "fieldname": "procedure_code",
+   "fieldtype": "Data",
+   "label": "Procedure Code (ICD-9-CM / SNOMED CT)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_code",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Contoh: Routine chest x-ray",
+   "fieldname": "procedure_display",
+   "fieldtype": "Data",
+   "label": "Procedure Display",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "satusehat_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Payload & Response"
+  },
+  {
+   "fieldname": "payload_json",
+   "fieldtype": "Code",
+   "label": "Payload JSON",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Validation Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-08 14:07:31.713583",
+ "modified_by": "Administrator",
+ "module": "Procedure",
+ "name": "Procedure SatuSehat",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -131,6 +131,7 @@ def send_to_satusehat(docname):
 		# Log to SatuSehat API Log
 		log_doc = frappe.get_doc({
 			"doctype": "SatuSehat API Log",
+			"reference_doctype": doc.doctype,
 			"reference_doc": doc.name,
 			"resource_type": resource_type,
 			"satusehat_id": satusehat_id,

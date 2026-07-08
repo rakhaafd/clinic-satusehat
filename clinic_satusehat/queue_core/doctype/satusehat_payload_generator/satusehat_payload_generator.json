@@ -17,6 +17,7 @@
   "practitioner_ihs",
   "ref_section",
   "encounter_id",
+  "service_request_id",
   "payload_section",
   "generated_payload",
   "api_response"
@@ -32,7 +33,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Resource Type",
-   "options": "Encounter\nCondition\nObservation\nProcedure\nComposition\nMedication\nMedicationRequest\nMedicationDispense\nAllergyIntolerance\nImagingStudy\nServiceRequest\nClinicalImpression",
+   "options": "Encounter\nCondition\nObservation\nProcedure\nComposition\nMedication\nMedicationRequest\nMedicationDispense\nAllergyIntolerance\nImagingStudy\nServiceRequest\nClinicalImpression\nImmunization\nQuestionnaireResponse\nMedicationStatement\nCarePlan\nSpecimen\nDiagnosticReport\nEpisodeOfCare",
    "reqd": 1
   },
   {
@@ -79,6 +80,21 @@
    "label": "Encounter ID (Dari Kemenkes)"
   },
   {
+   "fieldname": "service_request_id",
+   "fieldtype": "Data",
+   "label": "Service Request ID"
+  },
+  {
+   "fieldname": "specimen_id",
+   "fieldtype": "Data",
+   "label": "Specimen ID"
+  },
+  {
+   "fieldname": "observation_id",
+   "fieldtype": "Data",
+   "label": "Observation ID (Result)"
+  },
+  {
    "collapsible": 1,
    "fieldname": "payload_section",
    "fieldtype": "Section Break",
@@ -100,7 +116,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-07 10:59:00.742598",
+ "modified": "2026-07-07 20:53:50.496895",
  "modified_by": "Administrator",
  "module": "Queue Core",
  "name": "SatuSehat Payload Generator",
