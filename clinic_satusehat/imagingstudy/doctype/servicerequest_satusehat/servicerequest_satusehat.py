@@ -61,6 +61,7 @@ def send_to_satusehat(docname):
 	payload["code"]["text"] = doc.request_text
 
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/ServiceRequest", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

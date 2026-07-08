@@ -71,6 +71,7 @@ def send_to_satusehat(docname):
 		payload["collection"]["collectedDateTime"] = dt.strftime("%Y-%m-%dT%H:%M:%S+00:00")
 	
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/Specimen", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

@@ -72,6 +72,7 @@ def send_to_satusehat(docname):
 			payload["statusHistory"][0]["period"]["start"] = iso_date
 	
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/EpisodeOfCare", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

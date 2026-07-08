@@ -65,6 +65,7 @@ def send_to_satusehat(docname):
 	payload["series"][0]["instance"][0]["uid"] = pure_uid + ".1"
 
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/ImagingStudy", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

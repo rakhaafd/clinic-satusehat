@@ -66,6 +66,7 @@ def send_to_satusehat(docname):
 		payload.pop("note", None)
 
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/ClinicalImpression", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

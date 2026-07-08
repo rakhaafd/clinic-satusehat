@@ -70,6 +70,7 @@ def send_to_satusehat(docname):
 			item["answer"][0]["valueBoolean"] = bool(doc.riwayat_alergi)
 
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/QuestionnaireResponse", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

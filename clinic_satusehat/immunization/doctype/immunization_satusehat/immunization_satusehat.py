@@ -69,6 +69,7 @@ def send_to_satusehat(docname):
 	payload["protocolApplied"][0]["doseNumberPositiveInt"] = doc.dose_number
 
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/Immunization", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

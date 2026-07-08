@@ -88,6 +88,7 @@ def send_to_satusehat(docname):
 	payload["conclusionCode"][0]["coding"][0]["display"] = doc.conclusion_display
 	
 	try:
+		doc.db_set("payload_json", json.dumps(payload, indent=2))
 		resp = requests.post(f"{base_url}/DiagnosticReport", json=payload, headers=headers, timeout=30)
 		
 		doc.db_set("api_response", resp.text)

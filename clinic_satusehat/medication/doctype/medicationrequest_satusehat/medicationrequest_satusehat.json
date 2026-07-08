@@ -18,7 +18,8 @@
   "fetch_drugs_btn",
   "items",
   "section_break_1",
-  "status"
+  "status",
+  "payload_json"
  ],
  "fields": [
   {
@@ -98,12 +99,19 @@
    "label": "Status",
    "options": "Waiting\nValid\nRejected\nPartial",
    "read_only": 1
+  },
+  {
+   "fieldname": "payload_json",
+   "fieldtype": "Code",
+   "label": "Payload JSON",
+   "options": "JSON",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 15:18:02.059849",
+ "modified": "2026-07-08 21:57:39.779717",
  "modified_by": "Administrator",
  "module": "Medication",
  "name": "MedicationRequest SatuSehat",

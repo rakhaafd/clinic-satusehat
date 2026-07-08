@@ -16,10 +16,10 @@
   "icd_code",
   "diagnosis_display",
   "validation_status",
-  "column_break_satusehat",
+  "section_break_gvbn",
   "satusehat_id",
-  "payload_json",
-  "api_response"
+  "api_response",
+  "payload_json"
  ],
  "fields": [
   {
@@ -90,10 +90,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_satusehat",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "satusehat_id",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -113,12 +109,16 @@
    "label": "API Response",
    "options": "JSON",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_gvbn",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 10:52:53.541899",
+ "modified": "2026-07-08 22:13:08.444125",
  "modified_by": "Administrator",
  "module": "Condition",
  "name": "Condition SatuSehat",

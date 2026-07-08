@@ -21,7 +21,8 @@
   "section_break_system",
   "status",
   "satusehat_id",
-  "api_response"
+  "api_response",
+  "payload_json"
  ],
  "fields": [
   {
@@ -123,12 +124,19 @@
    "label": "API Response",
    "options": "JSON",
    "read_only": 1
+  },
+  {
+   "fieldname": "payload_json",
+   "fieldtype": "Code",
+   "label": "Payload JSON",
+   "options": "JSON",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 17:36:37.612798",
+ "modified": "2026-07-08 21:57:41.313567",
  "modified_by": "Administrator",
  "module": "QuestionnaireResponse",
  "name": "QuestionnaireResponse SatuSehat",

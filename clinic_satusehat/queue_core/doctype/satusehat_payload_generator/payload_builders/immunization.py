@@ -28,7 +28,7 @@ class ImmunizationBuilder(PayloadBuilder):
 			"occurrenceDateTime": "2024-01-01T00:00:00+00:00",
 			"primarySource": True,
 			"lotNumber": "LOT12345",
-			"expirationDate": "2025-01-01",
+			"expirationDate": "2029-01-01",
 			"performer": [
 				{
 					"function": {
