@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-08 14:17:27.774417",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "kfa_code",
+  "kfa_display",
+  "dosage",
+  "medication_id",
+  "medication_request_id",
+  "validation_status",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.kfa_code",
+   "fieldname": "kfa_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "KFA Code",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.kfa_display",
+   "fieldname": "kfa_display",
+   "fieldtype": "Data",
+   "label": "KFA Display Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dosage",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Dosage Instructions"
+  },
+  {
+   "fieldname": "medication_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat Medication ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "medication_request_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat MedRequest ID",
+   "read_only": 1
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "validation_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Validation Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-08 15:18:22.465827",
+ "modified_by": "Administrator",
+ "module": "Medication",
+ "name": "MedicationRequest Item SatuSehat",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

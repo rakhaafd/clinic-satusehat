@@ -4,3 +4,19 @@ Queue Pendaftaran
 Queue Poli
 Queue Apotek
 Queue Prescription
+Encounter
+Condition
+Observation
+Procedure
+Composition
+Medication
+AllergyIntolerance
+ImagingStudy
+ClinicalImpression
+Immunization
+QuestionnaireResponse
+MedicationStatement
+CarePlan
+Specimen
+DiagnosticReport
+EpisodeOfCare

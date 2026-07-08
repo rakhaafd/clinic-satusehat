@@ -145,7 +145,7 @@ doc_events = {
 	"Sales Invoice": {
 	},
 }
-fixtures = ["Custom Field", "Property Setter"]
+fixtures = ["Custom Field", "Property Setter", "Patient", "Healthcare Practitioner"]
 
 # Scheduled Tasks
 # ---------------
@@ -236,3 +236,4 @@ scheduler_events = {
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+doctype_js = {"Item": "public/js/item.js"}

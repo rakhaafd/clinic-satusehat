@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:IMG-{YYYY}-{MM}-{####}",
+ "creation": "2026-07-08 16:18:30.707930",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "servicerequest_satusehat",
+  "column_break_1",
+  "patient_name",
+  "patient_ihs",
+  "satusehat_encounter_id",
+  "satusehat_servicerequest_id",
+  "section_break_study",
+  "modality_code",
+  "modality_display",
+  "dicom_uid",
+  "section_break_system",
+  "status",
+  "satusehat_id",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "servicerequest_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "ServiceRequest SatuSehat",
+   "options": "ServiceRequest SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "servicerequest_satusehat.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "servicerequest_satusehat.patient_ihs",
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "servicerequest_satusehat.satusehat_encounter_id",
+   "fieldname": "satusehat_encounter_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat Encounter ID",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "servicerequest_satusehat.satusehat_id",
+   "fieldname": "satusehat_servicerequest_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat SR ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_study",
+   "fieldtype": "Section Break",
+   "label": "Imaging Details"
+  },
+  {
+   "default": "CT",
+   "fieldname": "modality_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Modality Code",
+   "reqd": 1
+  },
+  {
+   "default": "Computed Tomography",
+   "fieldname": "modality_display",
+   "fieldtype": "Data",
+   "label": "Modality Display",
+   "reqd": 1
+  },
+  {
+   "default": "urn:oid:1.2.840.113619.2.55.3.4271045733.996.1449464144.595",
+   "fieldname": "dicom_uid",
+   "fieldtype": "Data",
+   "label": "DICOM UID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "System Status"
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "satusehat_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-08 16:18:30.707930",
+ "modified_by": "Administrator",
+ "module": "Encounter",
+ "name": "ImagingStudy SatuSehat",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
