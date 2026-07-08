@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:EOC-{YYYY}-{MM}-{####}",
+ "creation": "2026-07-08 21:28:11.505860",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "encounter_satusehat",
+  "column_break_1",
+  "patient_name",
+  "patient_ihs",
+  "section_break_episode",
+  "identifier_value",
+  "type_code",
+  "type_display",
+  "start_date",
+  "section_break_system",
+  "status",
+  "satusehat_id",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "encounter_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Encounter SatuSehat (Data Pasien)",
+   "options": "Encounter SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_ihs",
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_episode",
+   "fieldtype": "Section Break",
+   "label": "Episode Details"
+  },
+  {
+   "default": "EOC-2024-001",
+   "fieldname": "identifier_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Identifier (ID Program)",
+   "reqd": 1
+  },
+  {
+   "default": "da",
+   "fieldname": "type_code",
+   "fieldtype": "Data",
+   "label": "Type Code (HL7)",
+   "reqd": 1
+  },
+  {
+   "default": "Drug and alcohol rehabilitation",
+   "fieldname": "type_display",
+   "fieldtype": "Data",
+   "label": "Type Display",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "System Status"
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "satusehat_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-08 21:28:11.505860",
+ "modified_by": "Administrator",
+ "module": "EpisodeOfCare",
+ "name": "EpisodeOfCare SatuSehat",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

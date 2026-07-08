@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MST-{YYYY}-{MM}-{####}",
+ "creation": "2026-07-08 20:16:16.167026",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "encounter_satusehat",
+  "column_break_1",
+  "patient_name",
+  "patient_ihs",
+  "satusehat_encounter_id",
+  "section_break_medication",
+  "item_code",
+  "medication_code",
+  "medication_display",
+  "date_asserted",
+  "note",
+  "section_break_system",
+  "status",
+  "satusehat_id",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "encounter_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Encounter SatuSehat",
+   "options": "Encounter SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_ihs",
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.satusehat_id",
+   "fieldname": "satusehat_encounter_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat Encounter ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_medication",
+   "fieldtype": "Section Break",
+   "label": "Medication Details"
+  },
+  {
+   "fetch_from": "item_code.kfa_code",
+   "fieldname": "medication_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Code (KFA)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item_code.kfa_display",
+   "fieldname": "medication_display",
+   "fieldtype": "Data",
+   "label": "Medication Display",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date_asserted",
+   "fieldtype": "Datetime",
+   "label": "Date Asserted",
+   "reqd": 1
+  },
+  {
+   "default": "Pasien menyatakan rutin mengonsumsi obat ini jika demam.",
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "System Status"
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "satusehat_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code (Master Obat)",
+   "options": "Item",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-08 20:37:06.645615",
+ "modified_by": "Administrator",
+ "module": "MedicationStatement",
+ "name": "MedicationStatement SatuSehat",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:DGR-{YYYY}-{MM}-{####}",
+ "creation": "2026-07-08 20:56:31.335203",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "encounter_satusehat",
+  "servicerequest_satusehat",
+  "specimen_satusehat",
+  "observation_satusehat",
+  "column_break_1",
+  "patient_name",
+  "patient_ihs",
+  "practitioner_ihs",
+  "section_break_report",
+  "report_code",
+  "report_display",
+  "conclusion_code",
+  "conclusion_display",
+  "section_break_system",
+  "status",
+  "satusehat_id",
+  "api_response"
+ ],
+ "fields": [
+  {
+   "fieldname": "encounter_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Encounter SatuSehat",
+   "options": "Encounter SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "servicerequest_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "ServiceRequest SatuSehat",
+   "options": "ServiceRequest SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "specimen_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Specimen SatuSehat",
+   "options": "Specimen SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "observation_satusehat",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Observation SatuSehat",
+   "options": "Observation SatuSehat",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.patient_ihs",
+   "fieldname": "patient_ihs",
+   "fieldtype": "Data",
+   "label": "Patient IHS",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "encounter_satusehat.practitioner_ihs",
+   "fieldname": "practitioner_ihs",
+   "fieldtype": "Data",
+   "label": "Practitioner IHS",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_report",
+   "fieldtype": "Section Break",
+   "label": "Diagnostic Report Details"
+  },
+  {
+   "default": "11477-7",
+   "fieldname": "report_code",
+   "fieldtype": "Data",
+   "label": "Report Code (LOINC)",
+   "reqd": 1
+  },
+  {
+   "default": "Microscopic observation [Identifier] in Sputum by Acid fast stain",
+   "fieldname": "report_display",
+   "fieldtype": "Data",
+   "label": "Report Display",
+   "reqd": 1
+  },
+  {
+   "default": "260347006",
+   "fieldname": "conclusion_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Conclusion Code (SNOMED)",
+   "reqd": 1
+  },
+  {
+   "default": "Positive",
+   "fieldname": "conclusion_display",
+   "fieldtype": "Data",
+   "label": "Conclusion Display",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_system",
+   "fieldtype": "Section Break",
+   "label": "System Status"
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "satusehat_id",
+   "fieldtype": "Data",
+   "label": "SatuSehat ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-08 20:56:31.335203",
+ "modified_by": "Administrator",
+ "module": "DiagnosticReport",
+ "name": "DiagnosticReport SatuSehat",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
