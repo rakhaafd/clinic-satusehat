@@ -11,27 +11,27 @@ frappe.ui.form.on("MedicationRequest SatuSehat", {
 						docname: frm.doc.name
 					},
 					freeze: true,
-					freeze_message: "Mengirim Obat dan Resep ke SatuSehat...",
+					freeze_message: "Sending to SatuSehat...",
 					callback: function(r) {
 						if (r.message) {
 							frm.reload_doc();
-							if(r.message.status == "Valid") {
+							if(r.message.status == 201 || r.message.status == 200) {
 								frappe.msgprint({
 									title: __('Success'),
 									indicator: 'green',
-									message: __('Semua obat berhasil terkirim!')
+									message: __('Data berhasil terkirim dengan status ' + r.message.status)
 								});
-							} else if(r.message.status == "Partial") {
+							} else if (r.message.status == 206) {
 								frappe.msgprint({
 									title: __('Warning'),
 									indicator: 'orange',
-									message: __('Sebagian obat gagal dikirim. Silakan cek tabel untuk detail.')
+									message: r.message.message
 								});
 							} else {
 								frappe.msgprint({
 									title: __('Error'),
 									indicator: 'red',
-									message: __('Semua obat gagal dikirim.')
+									message: r.message.message
 								});
 							}
 						}

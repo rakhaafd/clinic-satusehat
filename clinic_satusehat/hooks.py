@@ -26,7 +26,6 @@ required_apps = ["frappe/erpnext", "frappe/healthcare"]
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/clinic_satusehat/css/clinic_satusehat.css"
-# app_include_js = "/assets/clinic_satusehat/js/clinic_satusehat.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/clinic_satusehat/css/clinic_satusehat.css"

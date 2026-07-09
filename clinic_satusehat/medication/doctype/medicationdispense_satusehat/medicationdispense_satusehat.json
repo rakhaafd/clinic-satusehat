@@ -18,7 +18,8 @@
   "items",
   "section_break_1",
   "status",
-  "payload_json"
+  "payload_json",
+  "api_response"
  ],
  "fields": [
   {
@@ -96,12 +97,19 @@
    "label": "Payload JSON",
    "options": "JSON",
    "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Code",
+   "label": "API Response",
+   "options": "JSON",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 21:57:40.264111",
+ "modified": "2026-07-09 09:58:06.032733",
  "modified_by": "Administrator",
  "module": "Medication",
  "name": "MedicationDispense SatuSehat",

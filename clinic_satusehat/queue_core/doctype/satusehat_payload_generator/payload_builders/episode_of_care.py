@@ -31,8 +31,8 @@ class EpisodeOfCareBuilder(PayloadBuilder):
 					"coding": [
 						{
 							"system": "http://terminology.hl7.org/CodeSystem/episodeofcare-type",
-							"code": "da",
-							"display": "Drug and alcohol rehabilitation"
+							"code": getattr(doc, "type_code", "da"),
+							"display": getattr(doc, "type_display", "Drug and alcohol rehabilitation")
 						}
 					]
 				}

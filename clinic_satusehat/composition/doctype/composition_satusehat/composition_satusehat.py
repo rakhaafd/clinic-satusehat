@@ -47,7 +47,7 @@ class CompositionSatuSehat(Document):
 
 		# 1. Gather Condition / Diagnosis
 		conditions = frappe.get_all("Condition SatuSehat", 
-			filters={"encounter_satusehat": self.encounter_satusehat, "status": "Valid"}, 
+			filters={"encounter_satusehat": self.encounter_satusehat, "validation_status": "Valid"}, 
 			fields=["satusehat_id"])
 		
 		if conditions:
@@ -63,7 +63,7 @@ class CompositionSatuSehat(Document):
 
 		# 2. Gather Observation / Vital Signs
 		observations = frappe.get_all("Observation SatuSehat", 
-			filters={"encounter_satusehat": self.encounter_satusehat, "status": "Valid"}, 
+			filters={"encounter_satusehat": self.encounter_satusehat, "validation_status": "Valid"}, 
 			fields=["satusehat_ids"])
 		
 		obs_entry_list = []

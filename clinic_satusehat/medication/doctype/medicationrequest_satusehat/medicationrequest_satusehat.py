@@ -163,15 +163,30 @@ def send_to_satusehat(docname):
 			item.api_response = f"Error MedicationRequest: {str(e)}"
 			total_rejected += 1
 	
+	# Aggregate API responses to parent
+	import json
+	aggregated_responses = {}
+	for item in doc.items:
+		if item.api_response:
+			try:
+				aggregated_responses[item.item_code] = json.loads(item.api_response)
+			except:
+				aggregated_responses[item.item_code] = item.api_response
+	
+	doc.api_response = json.dumps(aggregated_responses, indent=2)
+
 	if total_rejected == 0 and total_valid > 0:
 		doc.status = "Valid"
-	elif total_valid == 0:
-		doc.status = "Rejected"
-	else:
+		doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return {"status": 200, "message": "Semua resep berhasil dikirim!"}
+	elif total_valid > 0 and total_rejected > 0:
 		doc.status = "Partial"
-	
-	doc.save(ignore_permissions=True)
-	frappe.db.commit()
-
-	return {"status": doc.status}
-
+		doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return {"status": 206, "message": f"{total_valid} resep berhasil, {total_rejected} gagal."}
+	else:
+		doc.status = "Rejected"
+		doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return {"status": 400, "message": "Gagal mengirim resep. Periksa API Response."}

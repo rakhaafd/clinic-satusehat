@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Encounter SatuSehat", {
 	refresh: function(frm) {
-		if (!frm.is_new() && frm.doc.payload_json && frm.doc.validation_status === "Valid") {
+		if (!frm.is_new() && frm.doc.payload_json && frm.doc.status === "Valid") {
 			frm.add_custom_button(__("Send to SatuSehat"), function() {
 				frappe.call({
 					method: "clinic_satusehat.encounter.doctype.encounter_satusehat.encounter_satusehat.send_to_satusehat",
@@ -21,11 +21,17 @@ frappe.ui.form.on("Encounter SatuSehat", {
 									indicator: 'green',
 									message: __('Data berhasil terkirim dengan status ' + r.message.status)
 								});
+							} else if (r.message.status == 206) {
+								frappe.msgprint({
+									title: __('Warning'),
+									indicator: 'orange',
+									message: r.message.message
+								});
 							} else {
 								frappe.msgprint({
 									title: __('Error'),
 									indicator: 'red',
-									message: __('Gagal mengirim dengan status ' + r.message.status)
+									message: r.message.message
 								});
 							}
 						}

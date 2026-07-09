@@ -20,7 +20,7 @@
   "satusehat_id",
   "column_break_satusehat",
   "section_break_bjos",
-  "validation_status",
+  "status",
   "api_response",
   "payload_json"
  ],
@@ -121,23 +121,23 @@
    "read_only": 1
   },
   {
-   "default": "Waiting",
-   "fieldname": "validation_status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Validation Status",
-   "options": "Waiting\nValid\nRejected",
-   "read_only": 1
-  },
-  {
    "fieldname": "section_break_bjos",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "Waiting",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Waiting\nValid\nRejected",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 22:11:46.686576",
+ "modified": "2026-07-09 11:06:15.322454",
  "modified_by": "Administrator",
  "module": "Encounter",
  "name": "Encounter SatuSehat",
