@@ -145,6 +145,8 @@ def send_to_satusehat(docname):
 				}
 			]
 		}
+		
+		item._generated_payload = medreq_payload
 
 		try:
 			resp2 = requests.post(f"{base_url}/MedicationRequest", json=medreq_payload, headers=headers, timeout=30)
@@ -152,7 +154,7 @@ def send_to_satusehat(docname):
 				req_id = resp2.json().get("id")
 				item.medication_request_id = req_id
 				item.validation_status = "Valid"
-				item.api_response = ""
+				item.api_response = resp2.text
 				total_valid += 1
 			else:
 				item.validation_status = "Rejected"
@@ -162,17 +164,22 @@ def send_to_satusehat(docname):
 			item.validation_status = "Rejected"
 			item.api_response = f"Error MedicationRequest: {str(e)}"
 			total_rejected += 1
-	
-	# Aggregate API responses to parent
+
+	# Aggregate Payloads and API responses to parent
 	import json
 	aggregated_responses = {}
+	aggregated_payloads = {}
 	for item in doc.items:
+		if hasattr(item, "_generated_payload"):
+			aggregated_payloads[item.item_code] = item._generated_payload
+			
 		if item.api_response:
 			try:
 				aggregated_responses[item.item_code] = json.loads(item.api_response)
 			except:
 				aggregated_responses[item.item_code] = item.api_response
 	
+	doc.payload_json = json.dumps(aggregated_payloads, indent=2)
 	doc.api_response = json.dumps(aggregated_responses, indent=2)
 
 	if total_rejected == 0 and total_valid > 0:
