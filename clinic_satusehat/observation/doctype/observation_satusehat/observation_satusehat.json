@@ -44,7 +44,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "vital_signs.patient",
+   "fetch_from": "encounter_satusehat.patient",
    "fieldname": "patient",
    "fieldtype": "Link",
    "label": "Patient",
@@ -52,13 +52,14 @@
    "read_only": 1
   },
   {
-   "fetch_from": "vital_signs.patient_name",
+   "fetch_from": "encounter_satusehat.patient_name",
    "fieldname": "patient_name",
    "fieldtype": "Data",
    "label": "Patient Name",
    "read_only": 1
   },
   {
+   "fetch_from": "encounter_satusehat.patient_ihs",
    "fieldname": "patient_ihs",
    "fieldtype": "Data",
    "label": "Patient IHS",
@@ -119,7 +120,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 22:13:47.152175",
+ "modified": "2026-07-09 09:34:19.524774",
  "modified_by": "Administrator",
  "module": "Observation",
  "name": "Observation SatuSehat",

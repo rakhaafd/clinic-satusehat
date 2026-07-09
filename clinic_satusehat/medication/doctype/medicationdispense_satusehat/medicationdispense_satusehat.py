@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import requests
+import json
 from datetime import datetime
 
 class MedicationDispenseSatuSehat(Document):
@@ -42,8 +43,6 @@ class MedicationDispenseSatuSehat(Document):
 			frappe.msgprint("Tidak ditemukan obat yang berstatus Valid (memiliki ID Resep) pada dokumen tersebut.")
 		else:
 			frappe.msgprint(f"Berhasil menarik {count} obat.")
-			
-		self.save()
 
 def _satusehat_headers():
 	client_id = frappe.conf.get("satusehat_client_id")
@@ -126,8 +125,8 @@ def send_to_satusehat(docname):
 		}
 
 		try:
-			doc.db_set("payload_json", json.dumps(payload, indent=2))
-		resp = requests.post(f"{base_url}/MedicationDispense", json=dispense_payload, headers=headers, timeout=30)
+			doc.db_set("payload_json", json.dumps(dispense_payload, indent=2))
+			resp = requests.post(f"{base_url}/MedicationDispense", json=dispense_payload, headers=headers, timeout=30)
 			
 			item.api_response = resp.text
 			
@@ -146,6 +145,17 @@ def send_to_satusehat(docname):
 
 	doc.save(ignore_permissions=True)
 	
+	# Aggregate API responses to parent
+	aggregated_responses = {}
+	for item in doc.items:
+		if item.api_response:
+			try:
+				aggregated_responses[item.item_code] = json.loads(item.api_response)
+			except:
+				aggregated_responses[item.item_code] = item.api_response
+	
+	frappe.db.set_value("MedicationDispense SatuSehat", docname, "api_response", json.dumps(aggregated_responses, indent=2))
+
 	if total_rejected == 0 and total_valid > 0:
 		frappe.db.set_value("MedicationDispense SatuSehat", docname, "status", "Valid")
 		return {"status": 200, "message": "Semua obat berhasil diserahkan ke SatuSehat!"}
@@ -154,4 +164,4 @@ def send_to_satusehat(docname):
 		return {"status": 206, "message": f"{total_valid} obat berhasil, {total_rejected} gagal."}
 	else:
 		frappe.db.set_value("MedicationDispense SatuSehat", docname, "status", "Rejected")
-		return {"status": 400, "message": "Gagal menyerahkan obat. Periksa tabel item untuk log error."}
+		return {"status": 400, "message": "Gagal menyerahkan obat. Periksa API Response."}

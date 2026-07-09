@@ -1,9 +1,20 @@
 // Copyright (c) 2026, rakha and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Observation SatuSehat", {
+frappe.ui.form.on('Observation SatuSehat', {
+	setup: function(frm) {
+		frm.set_query("vital_signs", function() {
+			if (frm.doc.patient) {
+				return {
+					filters: {
+						patient: frm.doc.patient
+					}
+				};
+			}
+		});
+	},
 	refresh: function(frm) {
-		if (!frm.is_new() && frm.doc.payload_json && frm.doc.validation_status === "Valid") {
+		if (frm.doc.validation_status === 'Valid' && !frm.doc.satusehat_ids && !frm.is_new()) {
 			frm.add_custom_button(__("Send to SatuSehat"), function() {
 				frappe.call({
 					method: "clinic_satusehat.observation.doctype.observation_satusehat.observation_satusehat.send_to_satusehat",
@@ -21,11 +32,17 @@ frappe.ui.form.on("Observation SatuSehat", {
 									indicator: 'green',
 									message: __('Data berhasil terkirim dengan status ' + r.message.status)
 								});
+							} else if (r.message.status == 206) {
+								frappe.msgprint({
+									title: __('Warning'),
+									indicator: 'orange',
+									message: r.message.message
+								});
 							} else {
 								frappe.msgprint({
 									title: __('Error'),
 									indicator: 'red',
-									message: __('Gagal mengirim dengan status ' + r.message.status)
+									message: r.message.message
 								});
 							}
 						}

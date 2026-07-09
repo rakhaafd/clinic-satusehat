@@ -22,5 +22,5 @@ class EncounterValidator(Document):
 					frappe.delete_doc("Encounter SatuSehat", self.encounter_satusehat, ignore_permissions=True)
 					frappe.msgprint(f"Encounter SatuSehat {self.encounter_satusehat} telah dihapus karena status Validator ditolak.")
 				else:
-					frappe.db.set_value("Encounter SatuSehat", self.encounter_satusehat, "validation_status", self.status)
+					frappe.db.set_value("Encounter SatuSehat", self.encounter_satusehat, "status", self.status)
 					frappe.db.commit()

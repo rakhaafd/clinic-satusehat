@@ -21,11 +21,17 @@ frappe.ui.form.on("Composition SatuSehat", {
 									indicator: 'green',
 									message: __('Data berhasil terkirim dengan status ' + r.message.status)
 								});
+							} else if (r.message.status == 206) {
+								frappe.msgprint({
+									title: __('Warning'),
+									indicator: 'orange',
+									message: r.message.message
+								});
 							} else {
 								frappe.msgprint({
 									title: __('Error'),
 									indicator: 'red',
-									message: __('Gagal mengirim dengan status ' + r.message.status)
+									message: r.message.message
 								});
 							}
 						}

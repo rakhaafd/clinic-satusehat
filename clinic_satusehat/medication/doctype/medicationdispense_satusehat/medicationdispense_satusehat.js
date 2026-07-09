@@ -40,6 +40,11 @@ frappe.ui.form.on("MedicationDispense SatuSehat", {
 			}).addClass("btn-primary");
 		}
 	},
+	medication_request_satusehat: function(frm) {
+		if (frm.doc.medication_request_satusehat) {
+			frm.trigger('fetch_drugs_btn');
+		}
+	},
 	fetch_drugs_btn: function(frm) {
 		if (!frm.doc.medication_request_satusehat) {
 			frappe.msgprint("Silakan pilih MedicationRequest SatuSehat terlebih dahulu.");
@@ -52,7 +57,7 @@ frappe.ui.form.on("MedicationDispense SatuSehat", {
 			freeze: true,
 			freeze_message: "Menarik data resep...",
 			callback: function(r) {
-				frm.reload_doc();
+				frm.refresh_field("items");
 			}
 		});
 	}

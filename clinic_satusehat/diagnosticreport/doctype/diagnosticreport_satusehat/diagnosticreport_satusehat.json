@@ -38,7 +38,6 @@
   {
    "fieldname": "servicerequest_satusehat",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "ServiceRequest SatuSehat",
    "options": "ServiceRequest SatuSehat",
    "reqd": 1
@@ -46,7 +45,6 @@
   {
    "fieldname": "specimen_satusehat",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Specimen SatuSehat",
    "options": "Specimen SatuSehat",
    "reqd": 1
@@ -54,7 +52,6 @@
   {
    "fieldname": "observation_satusehat",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Observation SatuSehat",
    "options": "Observation SatuSehat",
    "reqd": 1
@@ -156,7 +153,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 21:57:41.990435",
+ "modified": "2026-07-09 11:37:37.914853",
  "modified_by": "Administrator",
  "module": "DiagnosticReport",
  "name": "DiagnosticReport SatuSehat",

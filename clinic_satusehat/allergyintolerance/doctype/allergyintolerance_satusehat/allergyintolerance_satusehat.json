@@ -102,6 +102,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "716186003",
    "fieldname": "snomed_code",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -109,6 +110,7 @@
    "reqd": 1
   },
   {
+   "default": "No known allergy (situation)",
    "fieldname": "snomed_display",
    "fieldtype": "Data",
    "label": "SNOMED Display Name",
@@ -157,7 +159,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-08 21:57:40.412975",
+ "modified": "2026-07-09 10:06:11.872437",
  "modified_by": "Administrator",
  "module": "AllergyIntolerance",
  "name": "AllergyIntolerance SatuSehat",
