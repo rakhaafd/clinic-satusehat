@@ -15,7 +15,7 @@ class EpisodeOfCareBuilder(PayloadBuilder):
 				{
 					"system": f"http://sys-ids.kemkes.go.id/episode-of-care/{org_id}",
 					"use": "official",
-					"value": "EOC-2024-001"
+					"value": doc.name
 				}
 			],
 			"statusHistory": [

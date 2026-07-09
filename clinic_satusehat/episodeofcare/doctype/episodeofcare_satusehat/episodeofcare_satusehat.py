@@ -51,7 +51,8 @@ def send_to_satusehat(docname):
 	class MockDoc:
 		patient_ihs = doc.patient_ihs
 		organization_id = org_id
-		
+		name = doc.name
+
 		def get(self, key, default=None):
 			return getattr(self, key, default)
 		
