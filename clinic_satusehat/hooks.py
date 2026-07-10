@@ -128,9 +128,9 @@ required_apps = ["frappe/erpnext", "frappe/healthcare"]
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {
-	"Sales Invoice": "clinic_satusehat.custom_doctype.sales_invoice.HealthcareSalesInvoice",
-}
+# override_doctype_class = {
+# 	"Sales Invoice": "clinic_satusehat.custom_doctype.sales_invoice.HealthcareSalesInvoice",
+# }
 
 # Document Events
 # ---------------
