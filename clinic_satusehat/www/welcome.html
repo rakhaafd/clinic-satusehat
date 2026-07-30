@@ -1,0 +1,87 @@
+{% extends "templates/web.html" %}
+
+{% block head_include %}
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#0f1b2e',
+              dark: '#0a1420',
+              card: '#1e293b',
+              light: '#1a2942',
+              input: '#0f172a',
+            },
+            cyan: {
+              light: '#4fc3f7',
+              DEFAULT: '#29b6f6',
+              dark: '#29b6f6',
+              glow: 'rgba(79, 195, 247, 0.35)',
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+
+  <!-- HTMX CDN -->
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+  <style>
+    body {
+      background-color: #0a1420 !important;
+      color: #e8edf3;
+      font-family: 'Poppins', sans-serif;
+    }
+    .htmx-swapping {
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+    }
+    .chevron {
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+    }
+  </style>
+
+{% endblock %}
+
+{% block navbar %}
+{% include "templates/includes/landing/navbar.html" %}
+{% endblock %}
+
+{% block page_content %}
+<main id="main-content" class="bg-navy-dark min-h-screen">
+  {% include "templates/includes/landing/hero.html" %}
+  {% include "templates/includes/landing/solutions.html" %}
+  {% include "templates/includes/landing/reviews.html" %}
+  {% include "templates/includes/landing/implements.html" %}
+  {% include "templates/includes/landing/integrations.html" %}
+  {% include "templates/includes/landing/trust.html" %}
+  {% include "templates/includes/landing/contact.html" %}
+  {% include "templates/includes/landing/footer.html" %}
+</main>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
