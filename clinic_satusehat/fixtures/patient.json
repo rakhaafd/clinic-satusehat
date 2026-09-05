@@ -45,7 +45,7 @@
   "territory": "All Territories",
   "tobacco_current_use": null,
   "tobacco_past_use": null,
-  "uid": "9271060312000001",
+  "nik": "9271060312000001",
   "user_id": null
  },
  {
@@ -94,7 +94,7 @@
   "territory": "All Territories",
   "tobacco_current_use": null,
   "tobacco_past_use": null,
-  "uid": "9104224509000003",
+  "nik": "9104224509000003",
   "user_id": null
  },
  {
@@ -143,7 +143,7 @@
   "territory": "All Territories",
   "tobacco_current_use": null,
   "tobacco_past_use": null,
-  "uid": "9104224606000005",
+  "nik": "9104224606000005",
   "user_id": null
  },
  {
@@ -192,7 +192,7 @@
   "territory": "All Territories",
   "tobacco_current_use": null,
   "tobacco_past_use": null,
-  "uid": "9204014804000002",
+  "nik": "9204014804000002",
   "user_id": null
  }
 ]

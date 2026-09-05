@@ -1,11 +1,9 @@
-# Copyright (c) 2026, rakha and contributors
-# For license information, please see license.txt
-
 import frappe
 from frappe.model.document import Document
-import requests
 import json
 from frappe.utils import get_datetime
+from clinic_satusehat.satusehat_client import send_resource, get_organization_id
+from clinic_satusehat.payload_builders import get_builder
 
 class SpecimenSatuSehat(Document):
 	def after_insert(self):
@@ -14,23 +12,6 @@ class SpecimenSatuSehat(Document):
 			doc_val.specimen_satusehat = self.name
 			doc_val.status = self.status
 			doc_val.insert(ignore_permissions=True)
-
-def _satusehat_headers():
-	client_id = frappe.conf.get("satusehat_client_id")
-	client_secret = frappe.conf.get("satusehat_client_secret")
-	auth_url = frappe.conf.get("satusehat_auth_url") or "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1"
-
-	token_url = f"{auth_url}/accesstoken?grant_type=client_credentials"
-	data = {"client_id": client_id, "client_secret": client_secret}
-
-	res = requests.post(token_url, data=data, timeout=10)
-	if res.status_code == 200:
-		token = res.json().get("access_token")
-		return {
-			"Authorization": f"Bearer {token}",
-			"Content-Type": "application/json"
-		}
-	frappe.throw(f"Failed to get SatuSehat Token: {res.text}")
 
 @frappe.whitelist()
 def send_to_satusehat(docname):
@@ -41,49 +22,9 @@ def send_to_satusehat(docname):
 	if doc.satusehat_id:
 		frappe.throw("Dokumen ini sudah terkirim ke SatuSehat.")
 
-	# Get the ServiceRequest ID
-	sr_id = frappe.db.get_value("ServiceRequest SatuSehat", doc.servicerequest_satusehat, "satusehat_id")
-	if not sr_id:
-		frappe.throw("ServiceRequest yang ditautkan belum memiliki SatuSehat ID. Pastikan sudah dikirim ke Kemkes.")
+	builder = get_builder("Specimen")
+	payload = builder.build(doc)
+	
+	doc.db_set("payload_json", json.dumps(payload, indent=2))
+	return send_resource(doc, resource_type="Specimen", payload_field="payload_json")
 
-	base_url = frappe.conf.get("satusehat_base_url") or "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1"
-	headers = _satusehat_headers()
-
-	from clinic_satusehat.queue_core.doctype.satusehat_payload_generator.payload_builders.specimen import SpecimenBuilder
-	
-	org_id = frappe.conf.get("satusehat_organization_id") or "10000004"
-	
-	class MockDoc:
-		patient_ihs = doc.patient_ihs
-		practitioner_ihs = doc.practitioner_ihs
-		organization_id = org_id
-		service_request_id = sr_id
-		
-	builder = SpecimenBuilder()
-	payload = builder.build(MockDoc())
-	
-	payload["identifier"][0]["value"] = doc.specimen_identifier
-	payload["type"]["coding"][0]["code"] = doc.specimen_code
-	payload["type"]["coding"][0]["display"] = doc.specimen_display
-	
-	if doc.collected_datetime:
-		dt = get_datetime(doc.collected_datetime)
-		payload["collection"]["collectedDateTime"] = dt.strftime("%Y-%m-%dT%H:%M:%S+00:00")
-	
-	try:
-		doc.db_set("payload_json", json.dumps(payload, indent=2))
-		resp = requests.post(f"{base_url}/Specimen", json=payload, headers=headers, timeout=30)
-		
-		doc.db_set("api_response", resp.text)
-		
-		if resp.status_code in [200, 201]:
-			satusehat_id = resp.json().get("id")
-			doc.db_set("satusehat_id", satusehat_id)
-			frappe.db.commit()
-			return {"status": resp.status_code, "message": "Berhasil mengirim Specimen."}
-		else:
-			return {"status": resp.status_code, "message": "Gagal mengirim Specimen. Periksa API Response."}
-	except Exception as e:
-		doc.db_set("api_response", str(e))
-		frappe.db.commit()
-		return {"status": 500, "message": str(e)}

@@ -137,6 +137,9 @@ required_apps = ["frappe/erpnext", "frappe/healthcare"]
 # Hook on document methods and events
 
 doc_events = {
+	"Patient": {
+		"before_save": "clinic_satusehat.utils.sync_patient_nik"
+	},
 	"Patient Encounter": {
 	},
 	"Vital Signs": {

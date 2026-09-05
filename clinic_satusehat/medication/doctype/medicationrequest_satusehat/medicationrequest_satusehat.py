@@ -1,28 +1,8 @@
-# Copyright (c) 2026, rakha and contributors
-# For license information, please see license.txt
-
 import frappe
 from frappe.model.document import Document
 import json
-import requests
-from datetime import datetime
-
-def _satusehat_headers():
-	client_id = frappe.conf.get("satusehat_client_id")
-	client_secret = frappe.conf.get("satusehat_client_secret")
-	auth_url = frappe.conf.get("satusehat_auth_url") or "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1"
-
-	token_url = f"{auth_url}/accesstoken?grant_type=client_credentials"
-	data = {"client_id": client_id, "client_secret": client_secret}
-
-	res = requests.post(token_url, data=data, timeout=10)
-	if res.status_code == 200:
-		token = res.json().get("access_token")
-		return {
-			"Authorization": f"Bearer {token}",
-			"Content-Type": "application/json"
-		}
-	frappe.throw(f"Failed to get SatuSehat Token: {res.text}")
+from clinic_satusehat.satusehat_client import send_resource, get_organization_id
+from clinic_satusehat.payload_builders import get_builder
 
 class MedicationRequestSatuSehat(Document):
 	def after_insert(self):
@@ -41,7 +21,6 @@ def fetch_drugs_from_encounter(docname):
 		frappe.throw("Mohon pilih Patient Encounter terlebih dahulu.")
 	
 	enc = frappe.get_doc("Patient Encounter", doc.patient_encounter)
-	
 	doc.set("items", [])
 	
 	for drug in enc.drugs:
@@ -75,9 +54,8 @@ def send_to_satusehat(docname):
 	if not doc.items:
 		frappe.throw("Tidak ada obat yang akan dikirim.")
 
-	base_url = frappe.conf.get("satusehat_base_url") or "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1"
-	org_id = frappe.conf.get("satusehat_organization_id")
-	headers = _satusehat_headers()
+	org_id = get_organization_id()
+	builder = get_builder("MedicationRequest")
 
 	total_valid = 0
 	total_rejected = 0
@@ -89,14 +67,12 @@ def send_to_satusehat(docname):
 			total_rejected += 1
 			continue
 
-		# 1. Dapatkan Medication ID
 		med_id = None
 		item_doc = frappe.get_doc("Item", item.item_code)
 		if item_doc.satusehat_id:
 			med_id = item_doc.satusehat_id
 			item.medication_id = med_id
 		else:
-			# Auto-register Medication (Opsi B)
 			from clinic_satusehat.api import register_item_medication
 			try:
 				res = register_item_medication(item.item_code)
@@ -112,61 +88,36 @@ def send_to_satusehat(docname):
 		if not med_id:
 			continue
 
-		# 2. Create MedicationRequest Payload
-		medreq_payload = {
-			"resourceType": "MedicationRequest",
-			"identifier": [
-				{
-					"system": f"http://sys-ids.kemkes.go.id/prescription/{org_id}",
-					"use": "official",
-					"value": f"{docname}-{item.item_code}"
-				}
-			],
-			"status": "completed",
-			"intent": "order",
-			"medicationReference": {
-				"reference": f"Medication/{med_id}"
-			},
-			"subject": {
-				"reference": f"Patient/{doc.patient_ihs}",
-				"display": doc.patient_name
-			},
-			"encounter": {
-				"reference": f"Encounter/{doc.satusehat_encounter_id}"
-			},
-			"authoredOn": datetime.now().isoformat() + "+07:00",
-			"requester": {
-				"reference": f"Practitioner/{doc.practitioner_ihs}"
-			},
-			"dosageInstruction": [
-				{
-					"sequence": 1,
-					"text": item.dosage or "Sesuai petunjuk dokter"
-				}
-			]
-		}
-		
+		class DummyItemDoc:
+			organization_id = org_id
+			patient_ihs = doc.patient_ihs
+			practitioner_ihs = doc.practitioner_ihs
+			satusehat_encounter_id = doc.satusehat_encounter_id
+			med_ref_id = med_id
+			name = f"{docname}-{item.item_code}"
+			kfa_display = item.kfa_display
+			dosage = item.dosage
+
+		medreq_payload = builder.build(DummyItemDoc())
 		item._generated_payload = medreq_payload
 
-		try:
-			resp2 = requests.post(f"{base_url}/MedicationRequest", json=medreq_payload, headers=headers, timeout=30)
-			if resp2.status_code in [200, 201]:
-				req_id = resp2.json().get("id")
-				item.medication_request_id = req_id
-				item.validation_status = "Valid"
-				item.api_response = resp2.text
-				total_valid += 1
-			else:
-				item.validation_status = "Rejected"
-				item.api_response = f"Gagal membuat MedicationRequest: {resp2.text}"
-				total_rejected += 1
-		except Exception as e:
+		class TempItemDoc:
+			doctype = "MedicationRequest SatuSehat"
+			name = doc.name
+			payload_json = json.dumps(medreq_payload)
+
+		res = send_resource(TempItemDoc(), resource_type="MedicationRequest")
+		if res.get("status") in [200, 201]:
+			req_id = res.get("satusehat_id") or (res.get("satusehat_ids")[0] if res.get("satusehat_ids") else None)
+			item.medication_request_id = req_id
+			item.validation_status = "Valid"
+			item.api_response = res.get("message")
+			total_valid += 1
+		else:
 			item.validation_status = "Rejected"
-			item.api_response = f"Error MedicationRequest: {str(e)}"
+			item.api_response = res.get("message")
 			total_rejected += 1
 
-	# Aggregate Payloads and API responses to parent
-	import json
 	aggregated_responses = {}
 	aggregated_payloads = {}
 	for item in doc.items:
@@ -176,7 +127,7 @@ def send_to_satusehat(docname):
 		if item.api_response:
 			try:
 				aggregated_responses[item.item_code] = json.loads(item.api_response)
-			except:
+			except Exception:
 				aggregated_responses[item.item_code] = item.api_response
 	
 	doc.payload_json = json.dumps(aggregated_payloads, indent=2)

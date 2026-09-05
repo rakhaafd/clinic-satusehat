@@ -1,37 +1,15 @@
 import frappe
 from frappe.model.document import Document
 import json
-import requests
-
-
-def _satusehat_headers():
-    import requests
-    import frappe
-    client_id = frappe.conf.get("satusehat_client_id")
-    client_secret = frappe.conf.get("satusehat_client_secret")
-    auth_url = frappe.conf.get("satusehat_auth_url") or "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1"
-    
-    token_url = f"{auth_url}/accesstoken?grant_type=client_credentials"
-    data = {"client_id": client_id, "client_secret": client_secret}
-    
-    res = requests.post(token_url, data=data, timeout=10)
-    if res.status_code == 200:
-        token = res.json().get("access_token")
-        return {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
-        }
-    frappe.throw(f"Failed to get SatuSehat Token: {res.text}")
+from clinic_satusehat.satusehat_client import send_resource, get_organization_id
 
 
 class SatuSehatPayloadGenerator(Document):
 	def before_save(self):
-		import json
-		
 		# Preserve manual ID overrides if user edited the JSON before saving
-		self.med_ref_id = "GANTI_DENGAN_ID_MEDICATION_SEBELUMNYA"
-		self.req_ref_id = "GANTI_DENGAN_ID_MEDREQ_SEBELUMNYA"
-		self.srv_ref_id = "GANTI_DENGAN_ID_SERVICEREQUEST_SEBELUMNYA"
+		self.med_ref_id = getattr(self, "med_ref_id", "") or "GANTI_DENGAN_ID_MEDICATION_SEBELUMNYA"
+		self.req_ref_id = getattr(self, "req_ref_id", "") or "GANTI_DENGAN_ID_MEDREQ_SEBELUMNYA"
+		self.srv_ref_id = getattr(self, "srv_ref_id", "") or "GANTI_DENGAN_ID_SERVICEREQUEST_SEBELUMNYA"
 		if self.generated_payload:
 			try:
 				old_payload = json.loads(self.generated_payload)
@@ -47,43 +25,45 @@ class SatuSehatPayloadGenerator(Document):
 					ref_str = old_payload["basedOn"][0]["reference"]
 					if ref_str.startswith("ServiceRequest/"):
 						self.srv_ref_id = ref_str.replace("ServiceRequest/", "")
-			except:
+			except Exception:
 				pass
 		self.generate_payload()
 
 	def generate_payload(self):
-		from .payload_builders import get_builder
+		from clinic_satusehat.payload_builders import get_builder
 		
 		# Fetch Patient Encounter if selected to extract base IDs
 		encounter_doc = None
 		if self.patient_encounter:
 			encounter_doc = frappe.get_doc("Patient Encounter", self.patient_encounter)
 			
-		self.patient_ihs = "GANTI_DENGAN_IHS_PASIEN"
-		self.practitioner_ihs = "GANTI_DENGAN_IHS_DOKTER"
-		self.location_id = "b017aa54-f1df-4ec2-9d84-8823815d7228"
-		self.organization_id = frappe.conf.get("satusehat_organization_id") or "GANTI_DENGAN_ID_KLINIK"
-		self.enc_ref_id = "2c83ff64-bc03-4e5d-b527-fc208d5243ff"
+		self.patient_ihs = getattr(self, "patient_ihs", "") or "GANTI_DENGAN_IHS_PASIEN"
+		self.practitioner_ihs = getattr(self, "practitioner_ihs", "") or "GANTI_DENGAN_IHS_DOKTER"
+		self.location_id = getattr(self, "location_id", "") or "GANTI_DENGAN_ID_LOCATION"
+		self.organization_id = get_organization_id() or "GANTI_DENGAN_ID_KLINIK"
+		self.enc_ref_id = getattr(self, "enc_ref_id_override", "") or getattr(self, "enc_ref_id", "") or "GANTI_DENGAN_ID_ENCOUNTER"
 		
 		if encounter_doc:
-			self.enc_ref_id = getattr(self, "enc_ref_id_override", "") or self.enc_ref_id
 			if encounter_doc.patient:
 				try:
 					patient = frappe.get_doc("Patient", encounter_doc.patient)
 					self.patient_ihs = patient.get("satusehat_id") or self.patient_ihs
-				except: pass
+				except Exception:
+					pass
 				
 			if encounter_doc.practitioner:
 				try:
 					practitioner = frappe.get_doc("Healthcare Practitioner", encounter_doc.practitioner)
 					self.practitioner_ihs = practitioner.get("satusehat_id") or self.practitioner_ihs
-				except: pass
+				except Exception:
+					pass
 				
 			if encounter_doc.medical_department:
 				try:
 					dept = frappe.get_doc("Medical Department", encounter_doc.medical_department)
 					self.location_id = dept.get("satusehat_id") or dept.get("custom_ihs_location_id") or self.location_id
-				except: pass
+				except Exception:
+					pass
 
 		builder = get_builder(self.resource_type)
 		if builder:
@@ -95,55 +75,10 @@ class SatuSehatPayloadGenerator(Document):
 				"message": f"Payload builder for {self.resource_type} is not yet implemented in modular architecture."
 			}
 			
-		import json
 		self.generated_payload = json.dumps(payload, indent=4)
 
 @frappe.whitelist()
 def send_to_satusehat(docname):
 	doc = frappe.get_doc("SatuSehat Payload Generator", docname)
-	if not doc.generated_payload:
-		frappe.throw("Silakan Save dokumen terlebih dahulu untuk membuat payload!")
-		
-	payload_json = json.loads(doc.generated_payload)
-	resource_type = payload_json.get("resourceType")
-	
-	# Get the base URL from env
-	base_url = frappe.conf.get("satusehat_base_url") or "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1"
-	endpoint = f"{base_url}/{resource_type}"
-	
-	headers = _satusehat_headers()
-	
-	try:
-		resp = requests.post(endpoint, json=payload_json, headers=headers, timeout=60)
-		result_str = f"STATUS CODE: {resp.status_code}\n\n{resp.text}"
-		
-		frappe.db.set_value("SatuSehat Payload Generator", doc.name, "api_response", result_str)
-		
-		satusehat_id = ""
-		try:
-			if resp.status_code in [200, 201]:
-				resp_json = resp.json()
-				if "id" in resp_json:
-					satusehat_id = resp_json["id"]
-		except:
-			pass
-			
-		# Log to SatuSehat API Log
-		log_doc = frappe.get_doc({
-			"doctype": "SatuSehat API Log",
-			"reference_doctype": doc.doctype,
-			"reference_doc": doc.name,
-			"resource_type": resource_type,
-			"satusehat_id": satusehat_id,
-			"status_code": resp.status_code,
-			"response_json": resp.text
-		})
-		log_doc.insert(ignore_permissions=True)
-		
-		frappe.db.commit()
-		
-		return {"status": resp.status_code, "message": result_str}
-	except Exception as e:
-		frappe.db.set_value("SatuSehat Payload Generator", doc.name, "api_response", str(e))
-		frappe.db.commit()
-		return {"status": 500, "message": str(e)}
+	return send_resource(doc, payload_field="generated_payload")
+
