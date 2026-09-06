@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Clinic SatuSehat - SIMRS Kemenkes Integration Architecture",
+    "output": "clinic_satusehat_architecture.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "ui-to-builder",
+        "label": "SIMRS to FHIR Payload",
+        "focus": ["user", "frappe_ui", "doctype_layer", "payload_builders"],
+        "note": "Tenaga medis menginput transaksi di SIMRS, lalu DocType menyusun payload HL7 FHIR R4."
+      },
+      {
+        "id": "satusehat-api",
+        "label": "OAuth2 & SATUSEHAT FHIR API",
+        "focus": ["satusehat_client", "kemenkes_auth", "kemenkes_fhir", "mariadb"],
+        "note": "Authentikasi token OAuth2 dan pengiriman payload FHIR ke Kemenkes SATUSEHAT API."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "Tenaga Medis",
+      "sublabel": "Staf Medis",
+      "pos": [40, 240],
+      "size": [130, 64]
+    },
+    {
+      "id": "frappe_ui",
+      "type": "frontend",
+      "label": "SIMRS UI Desk",
+      "sublabel": "Frappe Healthcare",
+      "pos": [210, 240],
+      "size": [130, 64]
+    },
+    {
+      "id": "doctype_layer",
+      "type": "backend",
+      "label": "DocType Controller",
+      "sublabel": "DocType Controller",
+      "pos": [380, 240],
+      "size": [140, 64]
+    },
+    {
+      "id": "payload_builders",
+      "type": "backend",
+      "label": "Payload Builders",
+      "sublabel": "FHIR Builder Engine",
+      "pos": [560, 240],
+      "size": [140, 64]
+    },
+    {
+      "id": "satusehat_client",
+      "type": "security",
+      "label": "SatuSehat Client",
+      "sublabel": "OAuth2 REST Client",
+      "pos": [740, 240],
+      "size": [140, 64],
+      "tag": "Bearer Auth"
+    },
+    {
+      "id": "mariadb",
+      "type": "database",
+      "label": "MariaDB Database",
+      "sublabel": "Database SIMRS",
+      "pos": [380, 440],
+      "size": [140, 64]
+    },
+    {
+      "id": "kemenkes_auth",
+      "type": "security",
+      "label": "SATUSEHAT Auth",
+      "sublabel": "Server OAuth2",
+      "pos": [740, 60],
+      "size": [140, 64]
+    },
+    {
+      "id": "kemenkes_fhir",
+      "type": "cloud",
+      "label": "SATUSEHAT FHIR API",
+      "sublabel": "Endpoint FHIR R4",
+      "pos": [920, 240],
+      "size": [140, 64],
+      "tag": "FHIR R4"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "SIMRS Local Platform (Frappe Bench v15)",
+      "wraps": ["frappe_ui", "doctype_layer", "payload_builders", "satusehat_client", "mariadb"]
+    },
+    {
+      "kind": "security-group",
+      "label": "Cloud Integration (Kemenkes RI SATUSEHAT)",
+      "wraps": ["kemenkes_auth", "kemenkes_fhir"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-to-ui",
+      "from": "user",
+      "to": "frappe_ui",
+      "label": "Input Data Medis",
+      "variant": "emphasis",
+      "labelDy": 50
+    },
+    {
+      "id": "ui-to-doctype",
+      "from": "frappe_ui",
+      "to": "doctype_layer",
+      "label": "Submit Document",
+      "labelDy": 50
+    },
+    {
+      "id": "doctype-to-builder",
+      "from": "doctype_layer",
+      "to": "payload_builders",
+      "label": "get_builder()",
+      "labelDy": 50
+    },
+    {
+      "id": "doctype-db-sync",
+      "from": "doctype_layer",
+      "to": "mariadb",
+      "label": "Simpan ID SATUSEHAT",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 50
+    },
+    {
+      "id": "builder-to-client",
+      "from": "payload_builders",
+      "to": "satusehat_client",
+      "label": "JSON FHIR Payload",
+      "labelDy": 50
+    },
+    {
+      "id": "client-auth",
+      "from": "satusehat_client",
+      "to": "kemenkes_auth",
+      "label": "Get Access Token",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "client-to-fhir",
+      "from": "satusehat_client",
+      "to": "kemenkes_fhir",
+      "label": "POST/PUT Resource",
+      "variant": "emphasis",
+      "labelDy": 50
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Dokumen & Transaksi SIMRS",
+      "items": [
+        "Terintegrasi langsung dengan modul Frappe & ERPNext Healthcare v15",
+        "DocType Controller secara otomatis mengeksekusi integrasi saat tombol Send dipicu"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Payload Builder Engine (HL7 FHIR R4)",
+      "items": [
+        "Transformasi data dari database relasional SIMRS menjadi standar FHIR JSON R4",
+        "Mendukung 10+ FHIR Resources: Encounter, Condition, Observation, Procedure, MedicationRequest, MedicationDispense, Specimen, DiagnosticReport, dll."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Keamanan & Autentikasi Kemenkes",
+      "items": [
+        "Menggunakan protokol OAuth2 Client Credentials dengan token otomatis ter-refresh",
+        "Komunikasi terenkripsi penuh via HTTPS TLS 1.3 ke endpoint resmi SATUSEHAT Kemenkes RI"
+      ]
+    }
+  ]
+}

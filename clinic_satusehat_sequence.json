@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "SATUSEHAT Integration Sequence Flow",
+    "output": "clinic_satusehat_sequence.html",
+    "viewBox": [960, 800],
+    "column_fit": "spread",
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "ui-and-payload",
+        "label": "Input & Payload Generation",
+        "focus": ["user", "simrs", "doctype", "builder"],
+        "note": "Dokter/Apoteker menekan tombol Send to SatuSehat, sistem memvalidasi dan membuat payload FHIR JSON."
+      },
+      {
+        "id": "api-call-and-db",
+        "label": "API Call & Storage",
+        "focus": ["client", "satusehat", "db", "doctype"],
+        "note": "SatuSehat Client mengirim HTTP Request (OAuth2 Bearer Token) dan menyimpan ID SATUSEHAT ke MariaDB."
+      }
+    ]
+  },
+  "participants": [
+    { "id": "user", "type": "external", "label": "Medis", "sublabel": "Dokter/Apoteker" },
+    { "id": "simrs", "type": "frontend", "label": "SIMRS", "sublabel": "Frappe UI" },
+    { "id": "doctype", "type": "backend", "label": "DocType", "sublabel": "Controller" },
+    { "id": "builder", "type": "backend", "label": "Builder", "sublabel": "FHIR Engine" },
+    { "id": "client", "type": "security", "label": "Client", "sublabel": "OAuth2 REST" },
+    { "id": "satusehat", "type": "cloud", "label": "SATUSEHAT", "sublabel": "Kemenkes API" },
+    { "id": "db", "type": "database", "label": "MariaDB", "sublabel": "Database" }
+  ],
+  "segments": [
+    { "from": 150, "to": 320, "label": "1. Inisiasi & Validation" },
+    { "from": 340, "to": 540, "label": "2. Transmission & Authentication" },
+    { "from": 560, "to": 720, "label": "3. Persistence & Final Status" }
+  ],
+  "messages": [
+    { "id": "click-send", "from": "user", "to": "simrs", "y": 180, "label": "Klik 'Send to SatuSehat'", "variant": "emphasis" },
+    { "id": "trigger-method", "from": "simrs", "to": "doctype", "y": 225, "label": "Trigger send_to_satusehat()", "variant": "default" },
+    { "id": "call-builder", "from": "doctype", "to": "builder", "y": 270, "label": "get_builder('Resource')", "variant": "default" },
+    { "id": "return-json", "from": "builder", "to": "doctype", "y": 305, "label": "Return FHIR JSON Payload", "variant": "return" },
+    { "id": "send-request", "from": "doctype", "to": "client", "y": 360, "label": "post_resource()", "variant": "emphasis" },
+    { "id": "http-post", "from": "client", "to": "satusehat", "y": 410, "label": "HTTPS POST /fhir-r4/v1/Resource", "variant": "security" },
+    { "id": "fhir-response", "from": "satusehat", "to": "client", "y": 470, "label": "201 Created (satusehat_id)", "variant": "return" },
+    { "id": "return-id", "from": "client", "to": "doctype", "y": 515, "label": "Return satusehat_id", "variant": "return" },
+    { "id": "save-db", "from": "doctype", "to": "db", "y": 570, "label": "UPDATE satusehat_id = UUID", "variant": "emphasis" },
+    { "id": "db-ack", "from": "db", "to": "doctype", "y": 615, "label": "Commit Transaction", "variant": "return" },
+    { "id": "show-success", "from": "doctype", "to": "simrs", "y": 660, "label": "frappe.msgprint('Sukses')", "variant": "return" },
+    { "id": "notify-user", "from": "simrs", "to": "user", "y": 700, "label": "Status: Terkirim Ke Kemenkes", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "simrs", "from": 175, "to": 705, "type": "frontend" },
+    { "participant": "doctype", "from": 220, "to": 665, "type": "backend" },
+    { "participant": "builder", "from": 265, "to": 310, "type": "backend" },
+    { "participant": "client", "from": 355, "to": 520, "type": "security" },
+    { "participant": "satusehat", "from": 405, "to": 475, "type": "cloud" },
+    { "participant": "db", "from": 565, "to": 620, "type": "database" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Alur Pengiriman Otomatis",
+      "items": [
+        "Pengiriman data dipicu langsung dari halaman Dokumen SIMRS",
+        "Setiap panggilan tervalidasi sebelum masuk ke tahap transmisi jaringan"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Standar Protokol Kemenkes",
+      "items": [
+        "Mengirimkan payload HL7 FHIR JSON R4 melalui HTTPS REST API resmi Kemenkes RI",
+        "Mendapatkan ID SATUSEHAT resmi (UUID) sebagai bukti pengiriman terekam di nasional"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Sinkronisasi State Local DB",
+      "items": [
+        "SATUSEHAT ID disimpan permanen di MariaDB SIMRS",
+        "Memungkinkan pencarian ulang (lookup) dan pembaruan data (*PUT/Update*) di kemudian hari"
+      ]
+    }
+  ]
+}
