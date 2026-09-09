@@ -5,6 +5,9 @@ from clinic_satusehat.payload_builders import get_builder
 
 @frappe.whitelist()
 def register_item_medication(item_code):
+	"""
+	Mendaftarkan Item obat di SIMRS (berdasarkan KFA Code) ke SATUSEHAT Kemenkes sebagai Medication FHIR Resource.
+	"""
 	item = frappe.get_doc("Item", item_code)
 	if not item.kfa_code:
 		frappe.throw("Mohon isi KFA Code terlebih dahulu di Item ini.")

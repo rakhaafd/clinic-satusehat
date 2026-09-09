@@ -1,0 +1,1 @@
+from clinic_satusehat.utils.patient import sync_patient_nik

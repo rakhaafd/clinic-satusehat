@@ -1,5 +1,3 @@
-# Backward compatibility module re-exporting from clinic_satusehat.services.satusehat_client
-
 from clinic_satusehat.services.satusehat_client import (
 	get_satusehat_headers,
 	get_base_url,
