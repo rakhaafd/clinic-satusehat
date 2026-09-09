@@ -1,1 +1,1 @@
-from clinic_satusehat.utils.patient import sync_patient_nik
+from clinic_satusehat.utils.patient import set_patient_naming_series

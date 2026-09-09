@@ -52,6 +52,11 @@ required_apps = ["frappe/erpnext", "frappe/healthcare"]
 # include app icons in desk
 # app_include_icons = "clinic_satusehat/public/icons.svg"
 
+# Installation & Migration Hooks
+# -----------------------------
+after_migrate = "clinic_satusehat.utils.patient.set_patient_naming_series"
+after_install = "clinic_satusehat.utils.patient.set_patient_naming_series"
+
 # Home Pages
 # ----------
 
@@ -138,7 +143,6 @@ required_apps = ["frappe/erpnext", "frappe/healthcare"]
 
 doc_events = {
 	"Patient": {
-		"before_save": "clinic_satusehat.utils.sync_patient_nik"
 	},
 	"Patient Encounter": {
 	},

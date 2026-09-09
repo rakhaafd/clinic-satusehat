@@ -1,10 +1,10 @@
 import frappe
 
-def sync_patient_nik(doc, method=None):
+def set_patient_naming_series():
 	"""
-	Keep NIK and UID synchronized on Patient doc
+	Set Healthcare Settings patient_name_by to Naming Series (HLC-PAT-.YYYY.-.#####)
 	"""
-	if getattr(doc, "nik", None) and not getattr(doc, "uid", None):
-		doc.uid = doc.nik
-	elif getattr(doc, "uid", None) and not getattr(doc, "nik", None):
-		doc.nik = doc.uid
+	if frappe.db.exists("DocType", "Healthcare Settings"):
+		frappe.db.set_single_value("Healthcare Settings", "patient_name_by", "Naming Series")
+		frappe.db.commit()
+
