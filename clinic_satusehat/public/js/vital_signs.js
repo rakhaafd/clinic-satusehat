@@ -2,6 +2,24 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Vital Signs', {
+	setup: function(frm) {
+		frm.set_query('queue_registration', function() {
+			return {
+				filters: {
+					status_nurse: ['!=', 'Completed']
+				}
+			};
+		});
+	},
+	refresh: function(frm) {
+		frm.set_query('queue_registration', function() {
+			return {
+				filters: {
+					status_nurse: ['!=', 'Completed']
+				}
+			};
+		});
+	},
 	queue_registration: function(frm) {
 		if (frm.doc.queue_registration) {
 			frappe.db.get_doc('Queue Registration', frm.doc.queue_registration).then(qr => {
