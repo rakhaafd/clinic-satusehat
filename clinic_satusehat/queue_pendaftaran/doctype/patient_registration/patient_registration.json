@@ -300,7 +300,7 @@
  "modified": "2026-09-11 11:10:56.503784",
  "modified_by": "Administrator",
  "module": "Queue Pendaftaran",
- "name": "Register Patient",
+ "name": "Patient Registration",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

@@ -6,15 +6,15 @@ from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 
 
-class RegisterPatient(Document):
+class PatientRegistration(Document):
 	def after_insert(self):
 		self.create_queue_registration()
 
 	def create_queue_registration(self):
-		if not frappe.db.exists("Queue Registration", {"reference_register_patient": self.name}):
+		if not frappe.db.exists("Queue Registration", {"reference_patient_registration": self.name}):
 			queue_reg = frappe.get_doc({
 				"doctype": "Queue Registration",
-				"reference_register_patient": self.name,
+				"reference_patient_registration": self.name,
 				"status_nurse": "Waiting",
 				"status_doctor": "Waiting"
 			})
@@ -37,10 +37,10 @@ def make_patient_encounter(source_name, target_doc=None):
 			target.encounter_time = source.appointment_time
 
 	doclist = get_mapped_doc(
-		"Register Patient",
+		"Patient Registration",
 		source_name,
 		{
-			"Register Patient": {
+			"Patient Registration": {
 				"doctype": "Patient Encounter",
 				"field_map": {
 					"patient": "patient",

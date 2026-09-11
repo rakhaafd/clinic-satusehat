@@ -7,8 +7,8 @@ frappe.ui.form.on('Vital Signs', {
 			frappe.db.get_doc('Queue Registration', frm.doc.queue_registration).then(qr => {
 				if (qr && qr.patient) {
 					frm.set_value('patient', qr.patient);
-				} else if (qr && qr.reference_register_patient) {
-					frappe.db.get_doc('Register Patient', qr.reference_register_patient).then(rp => {
+				} else if (qr && qr.reference_patient_registration) {
+					frappe.db.get_doc('Patient Registration', qr.reference_patient_registration).then(rp => {
 						if (rp && rp.patient) {
 							frm.set_value('patient', rp.patient);
 						}

@@ -13,9 +13,9 @@ def on_vital_signs_save(doc, method=None):
 	if not doc.patient:
 		patient_id = frappe.db.get_value("Queue Registration", queue_reg_name, "patient")
 		if not patient_id:
-			rp_name = frappe.db.get_value("Queue Registration", queue_reg_name, "reference_register_patient")
+			rp_name = frappe.db.get_value("Queue Registration", queue_reg_name, "reference_patient_registration")
 			if rp_name:
-				patient_id = frappe.db.get_value("Register Patient", rp_name, "patient")
+				patient_id = frappe.db.get_value("Patient Registration", rp_name, "patient")
 		if patient_id:
 			doc.patient = patient_id
 
