@@ -147,6 +147,12 @@ doc_events = {
 	"Patient Encounter": {
 	},
 	"Vital Signs": {
+		"before_insert": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"before_validate": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"validate": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"on_update": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"on_submit": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"after_insert": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 	},
 	"Sales Invoice": {
 	},
@@ -242,4 +248,7 @@ scheduler_events = {
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
-doctype_js = {"Item": "public/js/item.js"}
+doctype_js = {
+	"Item": "public/js/item.js",
+	"Vital Signs": "public/js/vital_signs.js"
+}

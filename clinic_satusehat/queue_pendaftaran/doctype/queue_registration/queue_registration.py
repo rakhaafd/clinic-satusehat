@@ -6,4 +6,14 @@ from frappe.model.document import Document
 
 
 class QueueRegistration(Document):
-	pass
+	def validate(self):
+		if self.reference_register_patient and (not self.patient or not self.patient_name):
+			rp = frappe.db.get_value(
+				"Register Patient",
+				self.reference_register_patient,
+				["patient", "patient_name"],
+				as_dict=True
+			)
+			if rp:
+				self.patient = rp.get("patient")
+				self.patient_name = rp.get("patient_name")
