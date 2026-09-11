@@ -151,7 +151,7 @@ doc_events = {
 	"Sales Invoice": {
 	},
 }
-fixtures = ["Custom Field", "Property Setter", "Customer"]
+fixtures = ["Custom Field", "Property Setter"]
 
 # Scheduled Tasks
 # ---------------
