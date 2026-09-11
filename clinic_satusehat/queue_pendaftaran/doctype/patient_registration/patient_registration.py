@@ -7,23 +7,13 @@ from frappe.model.mapper import get_mapped_doc
 
 
 class PatientRegistration(Document):
-	def after_insert(self):
-		self.create_queue_registration()
-
-	def create_queue_registration(self):
-		if not frappe.db.exists("Queue Registration", {"reference_patient_registration": self.name}):
-			queue_reg = frappe.get_doc({
-				"doctype": "Queue Registration",
-				"reference_patient_registration": self.name,
-				"status_nurse": "Waiting",
-				"status_doctor": "Waiting"
-			})
-			queue_reg.insert(ignore_permissions=True)
+	pass
 
 
 @frappe.whitelist()
 def make_patient_encounter(source_name, target_doc=None):
 	def set_missing_values(source, target):
+		target.patient_registration = source.name
 		target.patient = source.patient
 		target.patient_name = source.patient_name
 		target.patient_sex = source.patient_sex

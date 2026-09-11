@@ -145,6 +145,9 @@ doc_events = {
 	"Patient": {
 	},
 	"Patient Encounter": {
+		"after_insert": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
+		"on_update": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
+		"on_submit": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
 	},
 	"Vital Signs": {
 		"before_insert": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
@@ -250,5 +253,6 @@ scheduler_events = {
 
 doctype_js = {
 	"Item": "public/js/item.js",
-	"Vital Signs": "public/js/vital_signs.js"
+	"Vital Signs": "public/js/vital_signs.js",
+	"Patient Encounter": "public/js/patient_encounter.js"
 }

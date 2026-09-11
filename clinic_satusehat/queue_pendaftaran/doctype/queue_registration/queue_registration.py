@@ -7,13 +7,19 @@ from frappe.model.document import Document
 
 class QueueRegistration(Document):
 	def validate(self):
-		if self.reference_patient_registration and (not self.patient or not self.patient_name):
-			rp = frappe.db.get_value(
-				"Patient Registration",
-				self.reference_patient_registration,
-				["patient", "patient_name"],
+		if self.reference_encounter:
+			enc = frappe.db.get_value(
+				"Patient Encounter",
+				self.reference_encounter,
+				["patient", "patient_name", "appointment", "patient_registration"],
 				as_dict=True
 			)
-			if rp:
-				self.patient = rp.get("patient")
-				self.patient_name = rp.get("patient_name")
+			if enc:
+				if not self.patient:
+					self.patient = enc.get("patient")
+				if not self.patient_name:
+					self.patient_name = enc.get("patient_name")
+				if not self.appointment:
+					self.appointment = enc.get("appointment")
+				if not self.patient_registration:
+					self.patient_registration = enc.get("patient_registration")

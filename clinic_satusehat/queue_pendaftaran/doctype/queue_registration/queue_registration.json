@@ -8,9 +8,11 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "reference_patient_registration",
+  "reference_encounter",
   "patient",
   "patient_name",
+  "appointment",
+  "patient_registration",
   "column_break_1",
   "status_nurse",
   "status_doctor"
@@ -24,12 +26,12 @@
    "set_only_once": 1
   },
   {
-   "fieldname": "reference_patient_registration",
+   "fieldname": "reference_encounter",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Reference Patient Registration",
-   "options": "Patient Registration",
+   "label": "Reference Encounter",
+   "options": "Patient Encounter",
    "reqd": 1,
    "search_index": 1
   },
@@ -46,6 +48,22 @@
    "fieldname": "patient_name",
    "fieldtype": "Data",
    "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "appointment",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient Appointment",
+   "options": "Patient Appointment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient_registration",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient Registration",
+   "options": "Patient Registration",
    "read_only": 1
   },
   {
@@ -75,7 +93,7 @@
  ],
  "grid_page_length": 50,
  "links": [],
- "modified": "2026-09-11 13:56:00.000000",
+ "modified": "2026-09-11 14:35:00.000000",
  "modified_by": "Administrator",
  "module": "Queue Pendaftaran",
  "name": "Queue Registration",
@@ -133,12 +151,12 @@
  ],
  "restrict_to_domain": "Healthcare",
  "row_format": "Dynamic",
- "search_fields": "reference_patient_registration, patient, patient_name, status_nurse, status_doctor",
+ "search_fields": "reference_encounter, patient, patient_name, appointment, patient_registration, status_nurse, status_doctor",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "reference_patient_registration",
+ "title_field": "reference_encounter",
  "track_changes": 1,
  "track_seen": 1
 }
