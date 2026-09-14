@@ -1,0 +1,90 @@
+[
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 0,
+  "mode_of_payment": "Cheque",
+  "modified": "2026-09-13 15:34:27.379046",
+  "name": "Cheque",
+  "type": "Bank"
+ },
+ {
+  "accounts": [
+   {
+    "company": "SatuSehat",
+    "default_account": "1111.001 - Kas Kecil - S",
+    "parent": "Cash",
+    "parentfield": "accounts",
+    "parenttype": "Mode of Payment"
+   }
+  ],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "Cash",
+  "modified": "2026-09-11 09:45:57.671021",
+  "name": "Cash",
+  "type": "Cash"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "Credit Card",
+  "modified": "2026-09-11 09:45:51.151161",
+  "name": "Credit Card",
+  "type": "Bank"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 0,
+  "mode_of_payment": "Wire Transfer",
+  "modified": "2026-09-13 15:35:50.934264",
+  "name": "Wire Transfer",
+  "type": "Bank"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 0,
+  "mode_of_payment": "Bank Draft",
+  "modified": "2026-09-13 15:34:54.038318",
+  "name": "Bank Draft",
+  "type": "Bank"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "BPJS",
+  "modified": "2026-09-13 15:36:08.979787",
+  "name": "BPJS",
+  "type": "Cash"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "Asurance",
+  "modified": "2026-09-13 15:36:20.973864",
+  "name": "Asurance",
+  "type": "Cash"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "Company Guarantee",
+  "modified": "2026-09-13 15:37:58.327292",
+  "name": "Company Guarantee",
+  "type": "Cash"
+ }
+]

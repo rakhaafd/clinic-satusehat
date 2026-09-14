@@ -145,12 +145,17 @@ doc_events = {
 	"Patient": {
 	},
 	"Patient Encounter": {
+		"before_insert": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
+		"before_save": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
+		"before_validate": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
+		"validate": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
 		"after_insert": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
 		"on_update": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
 		"on_submit": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
 	},
 	"Vital Signs": {
 		"before_insert": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
+		"before_save": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 		"before_validate": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 		"validate": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 		"on_update": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
@@ -160,7 +165,19 @@ doc_events = {
 	"Sales Invoice": {
 	},
 }
-fixtures = ["Custom Field", "Property Setter"]
+fixtures = [
+	"Custom Field",
+	"Property Setter",
+	{
+		"dt": "Workspace",
+		"filters": [
+			["name", "like", "SIMRS%"]
+		]
+	},
+	"Patient",
+	"Healthcare Practitioner",
+	"Mode of Payment"
+]
 
 # Scheduled Tasks
 # ---------------
