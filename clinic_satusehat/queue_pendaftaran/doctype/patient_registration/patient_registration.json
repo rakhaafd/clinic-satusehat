@@ -201,10 +201,9 @@
   },
   {
    "fieldname": "practitioner_schedule_time",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Practitioner Schedule Time",
-   "options": "\n"
+   "label": "Practitioner Schedule Time"
   },
   {
    "fieldname": "service_request",
