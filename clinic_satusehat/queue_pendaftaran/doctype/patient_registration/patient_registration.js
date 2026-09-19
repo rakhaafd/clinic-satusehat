@@ -31,5 +31,42 @@ frappe.ui.form.on('Patient Registration', {
 				}
 			});
 		}
+	},
+	practitioner: function(frm) {
+		check_and_set_doctor_schedule(frm);
+	},
+	appointment_date: function(frm) {
+		check_and_set_doctor_schedule(frm);
 	}
 });
+
+function check_and_set_doctor_schedule(frm) {
+	if (frm.doc.practitioner && frm.doc.appointment_date) {
+		frappe.call({
+			method: 'clinic_satusehat.api.appointment.get_practitioner_available_slots',
+			args: {
+				practitioner: frm.doc.practitioner,
+				date: frm.doc.appointment_date
+			},
+			callback: function(r) {
+				if (r.message) {
+					let res = r.message;
+					if (!res.has_schedule_on_this_day) {
+						let days = (res.practice_days || []).join(', ') || 'Belum diatur';
+						frappe.msgprint({
+							title: __('Dokter Tidak Berpraktek'),
+							indicator: 'orange',
+							message: __('Dokter {0} tidak berpraktek pada hari {1} ({2}).<br>Hari berpraktek: <b>{3}</b>', 
+								[res.practitioner_name || frm.doc.practitioner, res.day_of_week, frm.doc.appointment_date, days])
+						});
+					} else if (res.time_slots && res.time_slots.length > 0) {
+						if (!frm.doc.appointment_time) {
+							frm.set_value('appointment_time', res.time_slots[0].from_time);
+						}
+					}
+				}
+			}
+		});
+	}
+}
+
