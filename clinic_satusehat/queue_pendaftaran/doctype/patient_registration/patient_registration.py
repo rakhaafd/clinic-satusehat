@@ -7,6 +7,22 @@ from frappe.model.mapper import get_mapped_doc
 
 
 class PatientRegistration(Document):
+	def validate(self):
+		self.check_doctor_availability()
+
+	def check_doctor_availability(self):
+		if self.practitioner and self.appointment_date:
+			from clinic_satusehat.api.appointment import get_practitioner_available_slots
+			res = get_practitioner_available_slots(self.practitioner, self.appointment_date)
+			if res.get("practice_days") and not res.get("has_schedule_on_this_day"):
+				prac_name = res.get("practitioner_name") or self.practitioner
+				day_name = res.get("day_of_week")
+				days_str = ", ".join(res.get("practice_days", []))
+				frappe.throw(
+					f"Dokter {prac_name} tidak memiliki jadwal praktek pada hari {day_name} ({self.appointment_date}). "
+					f"Hari praktek tersedia: {days_str}."
+				)
+
 	def after_insert(self):
 		from clinic_satusehat.services.patient_registration import on_patient_registration_save
 		on_patient_registration_save(self)
