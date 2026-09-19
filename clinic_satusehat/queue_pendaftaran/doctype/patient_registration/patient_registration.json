@@ -27,6 +27,7 @@
   "position_in_queue",
   "column_break_17",
   "practitioner",
+  "practitioner_schedule_time",
   "service_request",
   "reference_doctype",
   "reference_docname",
@@ -197,6 +198,13 @@
    "label": "Healthcare Practitioner",
    "options": "Healthcare Practitioner",
    "search_index": 1
+  },
+  {
+   "fieldname": "practitioner_schedule_time",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Practitioner Schedule Time",
+   "options": "\n"
   },
   {
    "fieldname": "service_request",

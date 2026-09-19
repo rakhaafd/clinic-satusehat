@@ -37,6 +37,14 @@ frappe.ui.form.on('Patient Registration', {
 	},
 	appointment_date: function(frm) {
 		check_and_set_doctor_schedule(frm);
+	},
+	practitioner_schedule_time: function(frm) {
+		if (frm.doc.practitioner_schedule_time) {
+			let time_val = frm.doc.practitioner_schedule_time.split(' - ')[0].trim();
+			if (time_val) {
+				frm.set_value('appointment_time', time_val);
+			}
+		}
 	}
 });
 
@@ -53,6 +61,8 @@ function check_and_set_doctor_schedule(frm) {
 					let res = r.message;
 					if (!res.has_schedule_on_this_day) {
 						let days = (res.practice_days || []).join(', ') || 'Belum diatur';
+						frm.set_df_property('practitioner_schedule_time', 'options', '');
+						frm.set_value('practitioner_schedule_time', '');
 						frappe.msgprint({
 							title: __('Dokter Tidak Berpraktek'),
 							indicator: 'orange',
@@ -60,13 +70,25 @@ function check_and_set_doctor_schedule(frm) {
 								[res.practitioner_name || frm.doc.practitioner, res.day_of_week, frm.doc.appointment_date, days])
 						});
 					} else if (res.time_slots && res.time_slots.length > 0) {
-						if (!frm.doc.appointment_time) {
+						let options = [''];
+						res.time_slots.forEach(slot => {
+							options.push(`${slot.from_time} - ${slot.to_time}`);
+						});
+						frm.set_df_property('practitioner_schedule_time', 'options', options.join('\n'));
+						
+						// Auto select first schedule if not set
+						if (!frm.doc.practitioner_schedule_time && options.length > 1) {
+							frm.set_value('practitioner_schedule_time', options[1]);
 							frm.set_value('appointment_time', res.time_slots[0].from_time);
 						}
 					}
 				}
 			}
 		});
+	} else {
+		frm.set_df_property('practitioner_schedule_time', 'options', '');
+		frm.set_value('practitioner_schedule_time', '');
 	}
 }
+
 
