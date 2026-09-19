@@ -26,6 +26,7 @@
   "appointment_based_on_check_in",
   "position_in_queue",
   "column_break_17",
+  "practitioner",
   "service_request",
   "reference_doctype",
   "reference_docname",
@@ -186,6 +187,16 @@
   {
    "fieldname": "column_break_17",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Healthcare Practitioner",
+   "options": "Healthcare Practitioner",
+   "search_index": 1
   },
   {
    "fieldname": "service_request",
