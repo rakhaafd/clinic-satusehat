@@ -142,6 +142,10 @@ after_install = "clinic_satusehat.utils.patient.set_patient_naming_series"
 # Hook on document methods and events
 
 doc_events = {
+	"Patient Registration": {
+		"after_insert": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
+		"on_update": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
+	},
 	"Patient": {
 	},
 	"Patient Encounter": {

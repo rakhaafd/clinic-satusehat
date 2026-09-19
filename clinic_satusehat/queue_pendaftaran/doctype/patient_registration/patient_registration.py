@@ -7,7 +7,13 @@ from frappe.model.mapper import get_mapped_doc
 
 
 class PatientRegistration(Document):
-	pass
+	def after_insert(self):
+		from clinic_satusehat.services.patient_registration import on_patient_registration_save
+		on_patient_registration_save(self)
+
+	def on_update(self):
+		from clinic_satusehat.services.patient_registration import on_patient_registration_save
+		on_patient_registration_save(self)
 
 
 @frappe.whitelist()
