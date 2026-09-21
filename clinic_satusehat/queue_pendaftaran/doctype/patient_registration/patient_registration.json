@@ -23,7 +23,6 @@
   "section_break_12",
   "duration",
   "appointment_time",
-  "appointment_based_on_check_in",
   "position_in_queue",
   "column_break_17",
   "practitioner",
@@ -42,8 +41,7 @@
   "section_break_3",
   "referring_practitioner",
   "notes",
-  "reminded",
-  "column_break_36"
+  "reminded"
  ],
  "fields": [
   {
@@ -70,9 +68,9 @@
    "in_standard_filter": 1,
    "label": "Medical Department",
    "options": "Medical Department",
+   "reqd": 1,
    "search_index": 1,
-   "set_only_once": 1,
-   "reqd": 1
+   "set_only_once": 1
   },
   {
    "fieldname": "column_break_1",
@@ -172,13 +170,6 @@
    "mandatory_depends_on": "eval:doc.appointment_based_on_check_in == false"
   },
   {
-   "default": "0",
-   "fieldname": "appointment_based_on_check_in",
-   "fieldtype": "Check",
-   "label": "Appointment Based On Check In",
-   "read_only": 1
-  },
-  {
    "fieldname": "position_in_queue",
    "fieldtype": "Int",
    "label": "Position In Queue",
@@ -203,8 +194,7 @@
    "fieldname": "practitioner_schedule_time",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Practitioner Schedule Time",
-   "options": "\n"
+   "label": "Practitioner Schedule Time"
   },
   {
    "fieldname": "service_request",
@@ -308,15 +298,11 @@
    "label": "Reminded",
    "print_hide": 1,
    "report_hide": 1
-  },
-  {
-   "fieldname": "column_break_36",
-   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "links": [],
- "modified": "2026-09-11 11:10:56.503784",
+ "modified": "2026-09-21 14:48:33.669482",
  "modified_by": "Administrator",
  "module": "Queue Pendaftaran",
  "name": "Patient Registration",
