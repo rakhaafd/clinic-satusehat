@@ -39,6 +39,7 @@ frappe.ui.form.on('Patient Registration', {
 		check_and_set_doctor_schedule(frm);
 	},
 	practitioner_schedule_time: function(frm) {
+		validate_schedule_vs_appointment_time(frm);
 		if (frm.doc.practitioner_schedule_time && frm.doc.practitioner_schedule_time.includes(' - ')) {
 			let parts = frm.doc.practitioner_schedule_time.split(' - ');
 			if (parts.length === 2) {
@@ -52,8 +53,34 @@ frappe.ui.form.on('Patient Registration', {
 				} catch(e) {}
 			}
 		}
+	},
+	appointment_time: function(frm) {
+		validate_schedule_vs_appointment_time(frm);
 	}
 });
+
+function validate_schedule_vs_appointment_time(frm) {
+	if (frm.doc.practitioner_schedule_time && frm.doc.appointment_time) {
+		if (frm.doc.practitioner_schedule_time.includes(' - ')) {
+			let parts = frm.doc.practitioner_schedule_time.split(' - ');
+			if (parts.length === 2) {
+				let to_time = parts[1].trim();
+				let app_time = String(frm.doc.appointment_time).trim();
+				if (to_time.length === 5) to_time += ':00';
+				if (app_time.length === 5) app_time += ':00';
+
+				if (to_time < app_time) {
+					frappe.msgprint({
+						title: __('Jadwal Dokter Tidak Sesuai'),
+						indicator: 'orange',
+						message: __('Jadwal dokter ({0}) sudah berakhir dan lebih awal dari waktu pendaftaran ({1}). Silakan pilih jadwal dokter yang sesuai.', [frm.doc.practitioner_schedule_time, app_time])
+					});
+					frm.set_value('practitioner_schedule_time', '');
+				}
+			}
+		}
+	}
+}
 
 function check_and_set_doctor_schedule(frm) {
 	if (frm.doc.practitioner && frm.doc.appointment_date) {
