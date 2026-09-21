@@ -19,19 +19,20 @@ class PatientRegistration(Document):
 			if " - " in str(self.practitioner_schedule_time):
 				parts = str(self.practitioner_schedule_time).split(" - ")
 				if len(parts) == 2:
-					to_time_str = parts[1].strip()
-					app_time_str = str(self.appointment_time).strip()
-					if len(to_time_str) == 5:
-						to_time_str += ":00"
-					if len(app_time_str) == 5:
-						app_time_str += ":00"
+					try:
+						from frappe.utils import get_time
+						to_time = get_time(parts[1].strip())
+						app_time = get_time(self.appointment_time)
 
-					if to_time_str < app_time_str:
-						frappe.throw(
-							f"Jadwal dokter ({self.practitioner_schedule_time}) sudah berakhir dan "
-							f"lebih awal dari waktu pendaftaran/encounter ({app_time_str}). "
-							f"Silakan pilih jadwal dokter yang sesuai dengan waktu pendaftaran."
-						)
+						if to_time < app_time:
+							frappe.throw(
+								f"Jadwal dokter ({self.practitioner_schedule_time}) sudah berakhir dan "
+								f"lebih awal dari waktu pendaftaran/encounter ({self.appointment_time}). "
+								f"Silakan pilih jadwal dokter yang sesuai dengan waktu pendaftaran."
+							)
+					except Exception as e:
+						if isinstance(e, frappe.ValidationError):
+							raise e
 
 	def check_slot_double_booking(self):
 		if self.practitioner and self.appointment_date and self.appointment_time:
