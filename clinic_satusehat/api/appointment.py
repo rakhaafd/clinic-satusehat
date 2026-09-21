@@ -61,7 +61,7 @@ def get_practitioner_available_slots(practitioner, date):
 					"to_time": to_time_str
 				})
 
-	# Ambil daftar janji temu yang sudah terbooking di tanggal tersebut
+	# Ambil daftar janji temu & pendaftaran yang sudah terbooking di tanggal tersebut
 	booked_appointments = frappe.get_all(
 		"Patient Appointment",
 		filters={
@@ -69,11 +69,35 @@ def get_practitioner_available_slots(practitioner, date):
 			"appointment_date": date,
 			"status": ["in", ["Open", "Scheduled", "Confirmed"]]
 		},
-		fields=["name", "appointment_time", "status"]
+		fields=["name", "appointment_time"]
 	)
 
-	# Buat set jam yang sudah terisi untuk matching cepat
-	booked_times = {str(b["appointment_time"]).strip(): b["name"] for b in booked_appointments}
+	booked_registrations = frappe.get_all(
+		"Patient Registration",
+		filters={
+			"practitioner": practitioner,
+			"appointment_date": date,
+			"docstatus": ["!=", 2]
+		},
+		fields=["name", "appointment_time"]
+	)
+
+	booked_times = {}
+	for b in booked_appointments:
+		if b.get("appointment_time"):
+			t_str = str(b["appointment_time"]).strip()
+			if len(t_str) == 5:
+				t_str += ":00"
+			booked_times[t_str] = b["name"]
+
+	for r in booked_registrations:
+		if r.get("appointment_time"):
+			t_str = str(r["appointment_time"]).strip()
+			if len(t_str) == 5:
+				t_str += ":00"
+			booked_times[t_str] = r["name"]
+
+	booked_time_list = list(booked_times.keys())
 
 	# Tandai setiap time_slot apakah available atau sudah terisi
 	processed_slots = []
@@ -84,7 +108,7 @@ def get_practitioner_available_slots(practitioner, date):
 			"from_time": s["from_time"],
 			"to_time": s["to_time"],
 			"is_available": not is_booked,
-			"booked_by_appointment": booked_times.get(slot_time) if is_booked else None
+			"booked_by": booked_times.get(slot_time) if is_booked else None
 		})
 
 	has_schedule = len(processed_slots) > 0
@@ -103,5 +127,6 @@ def get_practitioner_available_slots(practitioner, date):
 		"has_schedule_on_this_day": has_schedule,
 		"practice_days": list(configured_days),
 		"time_slots": processed_slots,
+		"booked_time_list": booked_time_list,
 		"message": message
 	}

@@ -11,6 +11,44 @@ class PatientRegistration(Document):
 		self.ensure_schedule_time_option()
 		self.calculate_duration_from_schedule()
 		self.check_doctor_availability()
+		self.check_slot_double_booking()
+
+	def check_slot_double_booking(self):
+		if self.practitioner and self.appointment_date and self.appointment_time:
+			time_str = str(self.appointment_time).strip()
+			if len(time_str) == 5:
+				time_str += ":00"
+
+			existing_reg = frappe.get_all(
+				"Patient Registration",
+				filters={
+					"practitioner": self.practitioner,
+					"appointment_date": self.appointment_date,
+					"appointment_time": time_str,
+					"name": ["!=", self.name],
+					"docstatus": ["!=", 2]
+				},
+				fields=["name"]
+			)
+
+			existing_app = frappe.get_all(
+				"Patient Appointment",
+				filters={
+					"practitioner": self.practitioner,
+					"appointment_date": self.appointment_date,
+					"appointment_time": time_str,
+					"status": ["in", ["Open", "Scheduled", "Confirmed"]]
+				},
+				fields=["name"]
+			)
+
+			if existing_reg or existing_app:
+				prac_doc = frappe.get_doc("Healthcare Practitioner", self.practitioner)
+				prac_name = prac_doc.practitioner_name if prac_doc else self.practitioner
+				frappe.throw(
+					f"Dokter {prac_name} sudah memiliki pendaftaran / janji temu pada jam {time_str} "
+					f"tanggal {self.appointment_date}. Silakan pilih jam atau tanggal lain."
+				)
 
 	def ensure_schedule_time_option(self):
 		if self.practitioner_schedule_time:
