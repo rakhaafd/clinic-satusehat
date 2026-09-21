@@ -12,15 +12,22 @@ def on_patient_registration_save(doc, method=None):
 	if not doc.name:
 		return
 
-	# Check if Patient Encounter already exists for this Patient Registration
-	encounter_name = frappe.db.get_value("Patient Encounter", {"patient_registration": doc.name})
+	# Check if Patient Encounter already exists for this patient at the same date and department
+	encounter_name = frappe.db.get_value(
+		"Patient Encounter",
+		{
+			"patient": doc.patient,
+			"encounter_date": doc.appointment_date,
+			"medical_department": doc.department,
+			"encounter_time": doc.appointment_time
+		}
+	)
 
 	if not encounter_name:
 		practitioner = getattr(doc, "practitioner", None) or getattr(doc, "referring_practitioner", None)
 
 		encounter = frappe.get_doc({
 			"doctype": "Patient Encounter",
-			"patient_registration": doc.name,
 			"patient": doc.patient,
 			"patient_name": doc.get("patient_name"),
 			"patient_sex": doc.get("patient_sex"),

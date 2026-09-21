@@ -109,7 +109,6 @@ def on_patient_encounter_save(doc, method=None):
 			"patient": doc.patient,
 			"patient_name": doc.patient_name,
 			"appointment": getattr(doc, "appointment", None),
-			"patient_registration": getattr(doc, "patient_registration", None),
 			"status_nurse": "Waiting",
 			"status_doctor": "Waiting"
 		})
@@ -126,6 +125,5 @@ def on_patient_encounter_save(doc, method=None):
 			"status_doctor": new_status,
 			"patient": doc.patient,
 			"patient_name": doc.patient_name,
-			"appointment": getattr(doc, "appointment", None),
-			"patient_registration": getattr(doc, "patient_registration", None)
+			"appointment": getattr(doc, "appointment", None)
 		})
