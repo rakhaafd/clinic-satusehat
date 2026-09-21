@@ -63,14 +63,14 @@
   "gender": "Male",
   "google_calendar": null,
   "hospital": null,
-  "image": null,
+  "image": "/files/_.jpeg",
   "inpatient_visit_charge": 0.0,
   "inpatient_visit_charge_item": null,
   "last_name": "Evan",
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-11 10:39:00.149782",
+  "modified": "2026-09-21 17:46:34.512943",
   "name": "HLC-PRAC-2026-00002",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3207192310600004",
@@ -86,7 +86,7 @@
     "parentfield": "practitioner_schedules",
     "parenttype": "Healthcare Practitioner",
     "schedule": "Nicholas Schedule",
-    "service_unit": null
+    "service_unit": "Outpatient Department - S"
    }
   ],
   "practitioner_type": "Internal",

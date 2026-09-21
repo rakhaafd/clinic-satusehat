@@ -180,7 +180,26 @@ fixtures = [
 	},
 	"Patient",
 	"Healthcare Practitioner",
-	"Mode of Payment"
+	"Mode of Payment",
+	{
+		"dt": "Role",
+		"filters": [
+			["name", "in", ["Petugas Pendaftaran", "Petugas Nurse Station"]]
+		]
+	},
+	{
+		"dt": "Role Profile",
+		"filters": [
+			["name", "in", ["Petugas Pendaftaran", "Petugas Nurse Station"]]
+		]
+	},
+	"Custom DocPerm",
+	{
+		"dt": "User",
+		"filters": [
+			["email", "in", ["pendaftaran@gmail.com", "petugasttv@gmail.com"]]
+		]
+	}
 ]
 
 # Scheduled Tasks

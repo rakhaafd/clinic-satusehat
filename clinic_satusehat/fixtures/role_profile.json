@@ -1,0 +1,32 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "modified": "2026-09-21 17:15:59.806535",
+  "name": "Petugas Pendaftaran",
+  "role_profile": "Petugas Pendaftaran",
+  "roles": [
+   {
+    "parent": "Petugas Pendaftaran",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Petugas Pendaftaran"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Role Profile",
+  "modified": "2026-09-21 17:22:44.062331",
+  "name": "Petugas Nurse Station",
+  "role_profile": "Petugas Nurse Station",
+  "roles": [
+   {
+    "parent": "Petugas Nurse Station",
+    "parentfield": "roles",
+    "parenttype": "Role Profile",
+    "role": "Petugas Nurse Station"
+   }
+  ]
+ }
+]
