@@ -8,7 +8,17 @@ from frappe.model.mapper import get_mapped_doc
 
 class PatientRegistration(Document):
 	def validate(self):
+		self.ensure_schedule_time_option()
 		self.check_doctor_availability()
+
+	def ensure_schedule_time_option(self):
+		if self.practitioner_schedule_time:
+			df = self.meta.get_field("practitioner_schedule_time")
+			if df:
+				options = [x.strip() for x in (df.options or "").split("\n") if x.strip()]
+				if self.practitioner_schedule_time not in options:
+					options.append(self.practitioner_schedule_time)
+					df.options = "\n".join(options)
 
 	def check_doctor_availability(self):
 		if self.practitioner and self.appointment_date:
