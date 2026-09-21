@@ -9,6 +9,7 @@ from frappe.model.mapper import get_mapped_doc
 class PatientRegistration(Document):
 	def validate(self):
 		self.ensure_schedule_time_option()
+		self.calculate_duration_from_schedule()
 		self.check_doctor_availability()
 
 	def ensure_schedule_time_option(self):
@@ -19,6 +20,21 @@ class PatientRegistration(Document):
 				if self.practitioner_schedule_time not in options:
 					options.append(self.practitioner_schedule_time)
 					df.options = "\n".join(options)
+
+	def calculate_duration_from_schedule(self):
+		if self.practitioner_schedule_time and " - " in str(self.practitioner_schedule_time):
+			parts = str(self.practitioner_schedule_time).split(" - ")
+			if len(parts) == 2:
+				try:
+					h1, m1 = map(int, parts[0].strip().split(":")[:2])
+					h2, m2 = map(int, parts[1].strip().split(":")[:2])
+					from_mins = h1 * 60 + m1
+					to_mins = h2 * 60 + m2
+					diff = to_mins - from_mins
+					if diff > 0:
+						self.duration = diff
+				except Exception:
+					pass
 
 	def check_doctor_availability(self):
 		if self.practitioner and self.appointment_date:

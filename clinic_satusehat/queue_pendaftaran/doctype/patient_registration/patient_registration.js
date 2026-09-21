@@ -39,10 +39,21 @@ frappe.ui.form.on('Patient Registration', {
 		check_and_set_doctor_schedule(frm);
 	},
 	practitioner_schedule_time: function(frm) {
-		if (frm.doc.practitioner_schedule_time) {
-			let time_val = frm.doc.practitioner_schedule_time.split(' - ')[0].trim();
+		if (frm.doc.practitioner_schedule_time && frm.doc.practitioner_schedule_time.includes(' - ')) {
+			let parts = frm.doc.practitioner_schedule_time.split(' - ');
+			let time_val = parts[0].trim();
 			if (time_val) {
 				frm.set_value('appointment_time', time_val);
+			}
+			if (parts.length === 2) {
+				try {
+					let [h1, m1] = parts[0].trim().split(':').map(Number);
+					let [h2, m2] = parts[1].trim().split(':').map(Number);
+					let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+					if (diff > 0) {
+						frm.set_value('duration', diff);
+					}
+				} catch(e) {}
 			}
 		}
 	}
@@ -81,6 +92,14 @@ function check_and_set_doctor_schedule(frm) {
 						if (!frm.doc.practitioner_schedule_time && options.length > 1) {
 							frm.set_value('practitioner_schedule_time', options[1]);
 							frm.set_value('appointment_time', res.time_slots[0].from_time);
+							try {
+								let [h1, m1] = res.time_slots[0].from_time.split(':').map(Number);
+								let [h2, m2] = res.time_slots[0].to_time.split(':').map(Number);
+								let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+								if (diff > 0) {
+									frm.set_value('duration', diff);
+								}
+							} catch(e) {}
 						}
 					}
 				}
