@@ -74,6 +74,7 @@ function check_and_set_doctor_schedule(frm) {
 						res.time_slots.forEach(slot => {
 							options.push(`${slot.from_time} - ${slot.to_time}`);
 						});
+						frm.set_df_property('practitioner_schedule_time', 'fieldtype', 'Select');
 						frm.set_df_property('practitioner_schedule_time', 'options', options.join('\n'));
 						
 						// Auto select first schedule if not set
