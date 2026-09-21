@@ -41,10 +41,6 @@ frappe.ui.form.on('Patient Registration', {
 	practitioner_schedule_time: function(frm) {
 		if (frm.doc.practitioner_schedule_time && frm.doc.practitioner_schedule_time.includes(' - ')) {
 			let parts = frm.doc.practitioner_schedule_time.split(' - ');
-			let time_val = parts[0].trim();
-			if (time_val) {
-				frm.set_value('appointment_time', time_val);
-			}
 			if (parts.length === 2) {
 				try {
 					let [h1, m1] = parts[0].trim().split(':').map(Number);
@@ -91,7 +87,6 @@ function check_and_set_doctor_schedule(frm) {
 						// Auto select first schedule if not set
 						if (!frm.doc.practitioner_schedule_time && options.length > 1) {
 							frm.set_value('practitioner_schedule_time', options[1]);
-							frm.set_value('appointment_time', res.time_slots[0].from_time);
 							try {
 								let [h1, m1] = res.time_slots[0].from_time.split(':').map(Number);
 								let [h2, m2] = res.time_slots[0].to_time.split(':').map(Number);
