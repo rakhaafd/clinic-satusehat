@@ -198,3 +198,94 @@ def get_patient_profile():
 		},
 		"active_registrations": active_registrations
 	}
+
+
+@frappe.whitelist(allow_guest=True)
+def login_patient_with_password(email_or_nik, password):
+	"""
+	Login Pasien menggunakan Email/NIK dan Password.
+	"""
+	from frappe.utils.password import get_decrypted_password
+
+	if not email_or_nik or not password:
+		frappe.throw(_("Email/NIK dan Password wajib diisi"), frappe.MandatoryError)
+
+	identifier = email_or_nik.strip()
+
+	patient = frappe.db.get_value(
+		"Patient",
+		{"email": identifier},
+		["name", "patient_name", "email", "uid", "mobile", "dob", "sex"],
+		as_dict=True
+	)
+	if not patient:
+		patient = frappe.db.get_value(
+			"Patient",
+			{"uid": identifier},
+			["name", "patient_name", "email", "uid", "mobile", "dob", "sex"],
+			as_dict=True
+		)
+
+	if not patient:
+		frappe.throw(_("Pasien dengan Email/NIK '{0}' tidak ditemukan").format(identifier), frappe.AuthenticationError)
+
+	saved_password = get_decrypted_password("Patient", patient["name"], "custom_password", raise_exception=False)
+
+	if not saved_password or saved_password != password:
+		frappe.throw(_("Password yang Anda masukkan salah"), frappe.AuthenticationError)
+
+	expiration = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)
+	payload = {
+		"patient_id": patient["name"],
+		"patient_name": patient["patient_name"],
+		"email": patient["email"],
+		"exp": expiration
+	}
+
+	token = jwt.encode(payload, get_jwt_secret(), algorithm="HS256")
+
+	return {
+		"status": "success",
+		"message": "Login berhasil",
+		"token": token,
+		"patient": patient
+	}
+
+
+@frappe.whitelist(allow_guest=True)
+def set_patient_password(email_or_nik, new_password, otp_code=None):
+	"""
+	Set atau Update Password Akun Pasien (Opsional: dengan verifikasi OTP terlebih dahulu).
+	"""
+	from frappe.utils.password import set_encrypted_password
+
+	if not email_or_nik or not new_password:
+		frappe.throw(_("Email/NIK dan Password baru wajib diisi"), frappe.MandatoryError)
+
+	identifier = email_or_nik.strip()
+	patient_name = frappe.db.get_value("Patient", {"email": identifier}, "name")
+	if not patient_name:
+		patient_name = frappe.db.get_value("Patient", {"uid": identifier}, "name")
+
+	if not patient_name:
+		frappe.throw(_("Pasien tidak ditemukan"), frappe.DoesNotExistError)
+
+	if otp_code:
+		patient_email = frappe.db.get_value("Patient", patient_name, "email")
+		if not patient_email:
+			frappe.throw(_("Pasien tidak memiliki email terdaftar untuk verifikasi OTP"))
+
+		cache_key = f"patient_otp:{patient_email.lower()}"
+		saved_otp = frappe.cache().get_value(cache_key)
+		if not saved_otp or str(saved_otp) != str(otp_code).strip():
+			frappe.throw(_("Kode OTP tidak valid atau telah kedaluwarsa"), frappe.AuthenticationError)
+
+		frappe.cache().delete_value(cache_key)
+
+	set_encrypted_password("Patient", patient_name, new_password, "custom_password")
+	frappe.db.commit()
+
+	return {
+		"status": "success",
+		"message": "Password akun pasien berhasil diperbarui"
+	}
