@@ -78,12 +78,20 @@
   "type": "Cash"
  },
  {
-  "accounts": [],
+  "accounts": [
+   {
+    "company": "RS Andalan",
+    "default_account": "Cash - RA",
+    "parent": "Company Guarantee",
+    "parentfield": "accounts",
+    "parenttype": "Mode of Payment"
+   }
+  ],
   "docstatus": 0,
   "doctype": "Mode of Payment",
   "enabled": 1,
   "mode_of_payment": "Company Guarantee",
-  "modified": "2026-09-13 15:37:58.327292",
+  "modified": "2026-09-24 09:41:16.411318",
   "name": "Company Guarantee",
   "type": "Cash"
  }

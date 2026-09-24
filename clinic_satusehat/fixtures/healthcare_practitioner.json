@@ -1,6 +1,7 @@
 [
  {
   "accounts": [],
+  "custom_description": "Spesialis Mikrobiologi Klinik lulusan Universitas Indonesia dengan pengalaman 10+ tahun.",
   "default_currency": "IDR",
   "department": "Microbiology",
   "designation": null,
@@ -20,7 +21,7 @@
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-11 13:45:41.525066",
+  "modified": "2026-09-24 09:48:22.580478",
   "name": "HLC-PRAC-2026-00001",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "7209061211900001",
@@ -51,6 +52,7 @@
  },
  {
   "accounts": [],
+  "custom_description": null,
   "default_currency": "IDR",
   "department": "Nephrology",
   "designation": null,
@@ -101,6 +103,7 @@
  },
  {
   "accounts": [],
+  "custom_description": null,
   "default_currency": "IDR",
   "department": "Neurology",
   "designation": null,
@@ -151,6 +154,7 @@
  },
  {
   "accounts": [],
+  "custom_description": null,
   "default_currency": "IDR",
   "department": "Oncology",
   "designation": null,

@@ -49,7 +49,7 @@ class RegistrationQueueTicket(Document):
 				"creation": [">=", today()]
 			})
 			
-			if not exists:
+			if not exists:	
 				try:
 					ticket = frappe.new_doc("Clinic Queue Ticket")
 					ticket.source_registration_ticket = self.name
