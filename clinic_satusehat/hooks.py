@@ -147,6 +147,7 @@ doc_events = {
 		"on_update": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
 	},
 	"Patient": {
+		"on_update": "clinic_satusehat.api.patient_auth.on_patient_update",
 	},
 	"Patient Encounter": {
 		"before_insert": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
