@@ -456,10 +456,26 @@ def get_patient_profile(token=None):
 		"active_registrations": active_registrations
 	}
 
+def get_appointment_doctor_status(app):
+	"""
+	Mengambil status_doctor berdasarkan flow:
+	Patient Encounter -> cari Patient Appointment yang di link -> ambil field dari Queue Registration
+	"""
+	app_id = app.name if hasattr(app, "name") else (app.get("name") if isinstance(app, dict) else str(app))
+
+	enc = frappe.db.get_value("Patient Encounter", {"appointment": app_id}, "name")
+	if enc:
+		status_doc = frappe.db.get_value("Queue Registration", {"reference_encounter": enc}, "status_doctor")
+		if status_doc and str(status_doc).strip():
+			return str(status_doc).strip()
+
+	return "Pending"
+
 @frappe.whitelist(allow_guest=True)
 def get_patient_appointments(token=None):
 	"""
-	API: Mengambil daftar riwayat janji temu pasien saat ini dari Doctype Patient Appointment berdasarkan token session
+	API: Mengambil daftar riwayat janji temu pasien saat ini dari Doctype Patient Appointment berdasarkan token session.
+	Status 'COMPLETED' (Selesai) HANYA berlaku ketika status_doctor == 'Completed'.
 	"""
 	payload = verify_token_payload(token)
 	patient_id = payload.get("patient_id")
@@ -493,13 +509,42 @@ def get_patient_appointments(token=None):
 
 		raw_status = (app.status or "Open").strip()
 		status_lower = raw_status.lower()
+		doc_status = get_appointment_doctor_status(app)
 
-		if status_lower in ["closed", "completed", "selesai"]:
+
+		# Requirement: Status Selesai HANYA ketika status_doctor == Completed
+		if doc_status.lower() in ["completed", "selesai"] or status_lower in ["completed"]:
 			fe_status = "COMPLETED"
-		elif status_lower in ["cancelled", "dibatalkan"]:
+		elif status_lower in ["cancelled", "dibatalkan"] or doc_status.lower() in ["cancelled", "dibatalkan"]:
 			fe_status = "CANCELLED"
 		else:
 			fe_status = "UPCOMING"
+
+		patients_ahead = 0
+		if fe_status == "UPCOMING" and app.practitioner and app.appointment_date:
+			earlier_apps = frappe.db.get_all(
+				"Patient Appointment",
+				filters={
+					"practitioner": app.practitioner,
+					"appointment_date": app.appointment_date,
+					"creation": ["<", app.creation],
+					"status": ["not in", ["Cancelled", "Dibatalkan"]]
+				},
+				fields=["name"]
+			)
+			for earlier_app in earlier_apps:
+				e_status = get_appointment_doctor_status(earlier_app.name)
+				if e_status not in ["Completed", "Cancelled", "Selesai", "Dibatalkan"]:
+					patients_ahead += 1
+
+		if doc_status == "Called":
+			queue_msg = "Giliran Anda! Silakan masuk ke ruang periksa dokter."
+		elif doc_status == "Completed":
+			queue_msg = "Pemeriksaan dokter telah selesai."
+		elif patients_ahead > 0:
+			queue_msg = f"Kurang {patients_ahead} pasien lagi sebelum antrian Anda dipanggil dokter."
+		else:
+			queue_msg = "Anda adalah antrian berikutnya. Bersiaplah dipanggil dokter."
 
 		try:
 			doc_num = int(app.name.split("-")[-1])
@@ -519,6 +564,9 @@ def get_patient_appointments(token=None):
 			"paymentMethod": app.mode_of_payment or "Tunai / Cash",
 			"status": fe_status,
 			"frappeStatus": raw_status,
+			"statusDoctor": doc_status,
+			"patientsAhead": patients_ahead,
+			"queueMessage": queue_msg,
 			"qrCodeValue": app.name,
 			"creation": str(app.creation)
 		})
@@ -527,6 +575,154 @@ def get_patient_appointments(token=None):
 		"status": "success",
 		"appointments": formatted_list
 	}
+
+@frappe.whitelist(allow_guest=True)
+def get_patient_active_queue(token=None):
+	"""
+	API khusus untuk menu Antrian di FE untuk memantau sisa antrean dan status dipanggil dokter secara real-time.
+	"""
+	payload = verify_token_payload(token)
+	patient_id = payload.get("patient_id")
+
+	# Fetch all non-cancelled appointments for patient to find the active one
+	candidate_apps = frappe.db.get_all(
+		"Patient Appointment",
+		filters={
+			"patient": patient_id,
+			"status": ["not in", ["Cancelled", "Dibatalkan"]]
+		},
+		fields=[
+			"name", "patient_name", "practitioner", "practitioner_name",
+			"department", "company", "appointment_date", "appointment_time",
+			"mode_of_payment", "status", "creation"
+		],
+		order_by="creation asc"
+	)
+
+	active_app = None
+	for candidate in candidate_apps:
+		status_doc = get_appointment_doctor_status(candidate)
+		if status_doc not in ["Completed", "Cancelled", "Selesai", "Dibatalkan"]:
+			active_app = candidate
+			break
+
+	if not active_app:
+		return {
+			"status": "success",
+			"has_active_queue": False,
+			"message": "Tidak ada antrian aktif saat ini."
+		}
+
+	app = active_app
+	from clinic_satusehat.api.hospital_search import format_doctor_data
+
+	practitioner_doc = None
+	if app.practitioner and frappe.db.exists("Healthcare Practitioner", app.practitioner):
+		practitioner_doc = frappe.get_doc("Healthcare Practitioner", app.practitioner)
+
+	doctor_data = format_doctor_data(practitioner_doc) if practitioner_doc else {
+		"id": app.practitioner or "dr-default",
+		"name": app.practitioner_name or app.practitioner or "Dokter Spesialis",
+		"poly": app.department or "Penyakit Dalam",
+		"hospital": app.company or "RS Andalan",
+		"avatarUrl": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&auto=format&fit=crop&q=80",
+	}
+
+	# Count patients ahead
+	patients_ahead = 0
+	earlier_apps = frappe.db.get_all(
+		"Patient Appointment",
+		filters={
+			"practitioner": app.practitioner,
+			"appointment_date": app.appointment_date,
+			"creation": ["<", app.creation],
+			"status": ["not in", ["Cancelled", "Dibatalkan"]]
+		},
+		fields=["name"]
+	)
+	for earlier_app in earlier_apps:
+		e_status = get_appointment_doctor_status(earlier_app.name)
+		if e_status not in ["Completed", "Cancelled", "Selesai", "Dibatalkan"]:
+			patients_ahead += 1
+
+	status_doc = get_appointment_doctor_status(app)
+
+	if status_doc in ["Called", "Dipanggil"]:
+		queue_msg = "Giliran Anda! Silakan masuk"
+	elif patients_ahead > 0:
+		queue_msg = f"Sisa {patients_ahead} pasien lagi"
+	else:
+		queue_msg = "Antrian berikutnya"
+
+	try:
+		doc_num = int(app.name.split("-")[-1])
+		queue_num = f"A-{doc_num:03d}"
+	except Exception:
+		queue_num = "A-001"
+
+	return {
+		"status": "success",
+		"has_active_queue": True,
+		"queue": {
+			"id": app.name,
+			"bookingCode": app.name,
+			"queueNumber": queue_num,
+			"doctor": doctor_data,
+			"appointmentDate": str(app.appointment_date),
+			"appointmentTime": str(app.appointment_time)[:5] if app.appointment_time else "09:00",
+			"polyClinic": app.department or doctor_data.get("poly", "Penyakit Dalam"),
+			"paymentMethod": app.mode_of_payment or "Tunai / Cash",
+			"statusDoctor": status_doc,
+			"patientsAhead": patients_ahead,
+			"queueMessage": queue_msg,
+			"creation": str(app.creation)
+		}
+	}
+
+def on_queue_status_update(doc, method=None):
+	"""
+	Hook trigger ketika status_doctor pasien diubah di Desk Frappe:
+	Jika status_doctor == 'Completed', otomatis ubah status_doctor pasien berikutnya dalam antrean menjadi 'Called'.
+	"""
+	if doc.doctype != "Queue Registration":
+		return
+
+	v_status = (getattr(doc, "status_doctor", None) or "").strip()
+	if v_status not in ["Completed", "Selesai"]:
+		return
+
+	if not getattr(doc, "appointment", None):
+		return
+
+	app = frappe.get_doc("Patient Appointment", doc.appointment)
+	if not app.practitioner or not app.appointment_date:
+		return
+
+	# Search next patient in queue for the same doctor & date
+	next_patients = frappe.db.get_all(
+		"Patient Appointment",
+		filters={
+			"practitioner": app.practitioner,
+			"appointment_date": app.appointment_date,
+			"name": ["!=", app.name],
+			"creation": [">", app.creation],
+			"status": ["not in", ["Cancelled", "Dibatalkan"]]
+		},
+		fields=["name", "creation"],
+		order_by="creation asc"
+	)
+
+	for next_p in next_patients:
+		e_status = get_appointment_doctor_status(next_p.name)
+		if e_status not in ["Completed", "Cancelled", "Selesai", "Dibatalkan"]:
+			# Set this next queue registration to Called
+			enc_name = frappe.db.get_value("Patient Encounter", {"appointment": next_p.name}, "name")
+			if enc_name:
+				qr_name = frappe.db.get_value("Queue Registration", {"reference_encounter": enc_name}, "name")
+				if qr_name:
+					frappe.db.set_value("Queue Registration", qr_name, "status_doctor", "Called")
+					frappe.db.commit()
+			break
 
 @frappe.whitelist(allow_guest=True)
 def create_patient_appointment(

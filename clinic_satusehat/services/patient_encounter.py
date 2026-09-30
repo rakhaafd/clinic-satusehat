@@ -100,30 +100,32 @@ def on_patient_encounter_save(doc, method=None):
 	"""
 	Automatically creates or updates Queue Registration for Patient Encounter.
 	"""
+	app_id = getattr(doc, "appointment", None)
+
 	qr_name = frappe.db.get_value("Queue Registration", {"reference_encounter": doc.name})
 
 	if not qr_name:
+		new_status = "Completed" if doc.docstatus == 1 else "Waiting"
 		qr = frappe.get_doc({
 			"doctype": "Queue Registration",
 			"reference_encounter": doc.name,
 			"patient": doc.patient,
 			"patient_name": doc.patient_name,
-			"appointment": getattr(doc, "appointment", None),
+			"appointment": app_id,
 			"status_nurse": "Waiting",
-			"status_doctor": "Waiting"
+			"status_doctor": new_status
 		})
 		qr.insert(ignore_permissions=True)
 	else:
-		if doc.docstatus == 1:
-			new_status = "Completed"
-		elif getattr(doc.flags, "in_insert", False) or doc.creation == doc.modified:
-			new_status = "Waiting"
-		else:
-			new_status = "Called"
-
-		frappe.db.set_value("Queue Registration", qr_name, {
-			"status_doctor": new_status,
+		updates = {
 			"patient": doc.patient,
 			"patient_name": doc.patient_name,
-			"appointment": getattr(doc, "appointment", None)
-		})
+			"appointment": app_id
+		}
+		
+		# Hanya ubah status_doctor secara otomatis jika encounter di submit (Completed)
+		if doc.docstatus == 1:
+			updates["status_doctor"] = "Completed"
+			
+		frappe.db.set_value("Queue Registration", qr_name, updates)
+

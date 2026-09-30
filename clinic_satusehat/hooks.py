@@ -146,6 +146,11 @@ doc_events = {
 		"after_insert": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
 		"on_update": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
 	},
+	"Patient Appointment": {
+	},
+	"Queue Registration": {
+		"on_update": "clinic_satusehat.api.patient_auth.on_queue_status_update",
+	},
 	"Patient": {
 	},
 	"Patient Encounter": {
