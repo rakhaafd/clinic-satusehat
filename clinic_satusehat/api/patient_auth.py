@@ -771,6 +771,15 @@ def create_patient_appointment(
 	from clinic_satusehat.api.hospital_search import format_time_str
 	time_clean = format_time_str(appointment_time)
 
+	# Validation: Cannot book for past dates or past time if today
+	current_date = frappe.utils.nowdate()
+	if appointment_date < current_date:
+		frappe.throw(_("Tidak bisa mendaftar janji temu untuk tanggal yang sudah terlewat."), frappe.ValidationError)
+	elif appointment_date == current_date:
+		# compare 'HH:MM:00'
+		if time_clean + ":00" <= frappe.utils.nowtime():
+			frappe.throw(_("Sesi berobat jam {0} sudah terlewat. Silakan pilih jam/sesi lain.").format(time_clean), frappe.ValidationError)
+
 	existing_booking = frappe.db.sql("""
 		SELECT name
 		FROM `tabPatient Appointment`

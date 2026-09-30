@@ -223,7 +223,7 @@ def search_doctors(search_text=None, company=None, department=None, location=Non
 	doctors = frappe.db.get_all(
 		"Healthcare Practitioner",
 		filters=filters,
-		fields=["name", "practitioner_name", "department", "image", "mobile_phone", "custom_description"],
+		fields=["name", "practitioner_name", "department", "image", "mobile_phone", "custom_description", "hospital"],
 		order_by="practitioner_name asc"
 	)
 
@@ -246,7 +246,7 @@ def get_doctor_detail(doctor_id=None):
 	doc = frappe.db.get_value(
 		"Healthcare Practitioner",
 		doctor_id,
-		["name", "practitioner_name", "department", "image", "mobile_phone", "custom_description"],
+		["name", "practitioner_name", "department", "image", "mobile_phone", "custom_description", "hospital"],
 		as_dict=True
 	)
 
