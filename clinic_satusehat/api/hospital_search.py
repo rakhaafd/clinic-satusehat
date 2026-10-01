@@ -184,6 +184,13 @@ def format_doctor_data(doc):
 	image_url = doc.get("image")
 	sched_info = get_doctor_schedules(doc.name)
 
+	payment_modes = frappe.db.get_all(
+		"Practitioner Mode of Payment",
+		filters={"parent": doc.name, "parenttype": "Healthcare Practitioner"},
+		fields=["mode_of_payment"]
+	)
+	accepted_payments = [p.mode_of_payment for p in payment_modes]
+
 	return {
 		"id": doc.name,
 		"name": doc.practitioner_name,
@@ -203,11 +210,12 @@ def format_doctor_data(doc):
 		"practiceSchedules": sched_info["practiceSchedules"],
 		"description": desc,
 		"image": image_url,
-		"mobile": doc.get("mobile_phone")
+		"mobile": doc.get("mobile_phone"),
+		"acceptedPayments": accepted_payments
 	}
 
 @frappe.whitelist(allow_guest=True)
-def search_doctors(search_text=None, company=None, department=None, location=None):
+def search_doctors(search_text=None, company=None, department=None, location=None, penjamin=None):
 	"""
 	API 3: Pencarian Dokter utama (Filter berantai: Nama Dokter, Rumah Sakit, Spesialisasi, Lokasi)
 	"""
@@ -219,6 +227,16 @@ def search_doctors(search_text=None, company=None, department=None, location=Non
 		filters["practitioner_name"] = ["like", f"%{search_text}%"]
 	if company and company != "all" and frappe.db.has_column("Healthcare Practitioner", "hospital"):
 		filters["hospital"] = company
+
+	if penjamin and penjamin != "all":
+		valid_doctors = frappe.db.get_all(
+			"Practitioner Mode of Payment",
+			filters={"mode_of_payment": penjamin, "parenttype": "Healthcare Practitioner"},
+			pluck="parent"
+		)
+		if not valid_doctors:
+			return {"status": "success", "count": 0, "doctors": []}
+		filters["name"] = ["in", valid_doctors]
 
 	doctors = frappe.db.get_all(
 		"Healthcare Practitioner",
