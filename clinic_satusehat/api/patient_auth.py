@@ -58,7 +58,7 @@ def parse_patient_guarantee(patient):
 	v_notes = getattr(patient, "custom_verification_notes", None) or ""
 
 	guarantee = {
-		"mode_of_payment": getattr(patient, "custom_mode_of_payment", None) or "Cash",
+		"mode_of_payment": getattr(patient, "custom_mode_of_payment", None) or "",
 		"bpjs_number": getattr(patient, "custom_bpjs_number", None) or "",
 		"bpjs_referral_file": getattr(patient, "custom_bpjs_referral_file", None) or "",
 		"company_name": getattr(patient, "custom_company_name", None) or "",
@@ -332,16 +332,18 @@ def register_patient(
 	sex = "Male" if gender in ["Laki-laki", "Male"] else "Female"
 
 	# Normalize mode_of_payment to match Patient custom_mode_of_payment Select field options
-	mop_clean = mode_of_payment or "Cash"
+	mop_clean = mode_of_payment or ""
 	mop_lower = mop_clean.lower()
 	if "bpjs" in mop_lower:
 		mop_select = "BPJS"
 	elif "perusahaan" in mop_lower or "company" in mop_lower or "guarantee" in mop_lower:
 		mop_select = "Company Guarantee"
 	elif "asuran" in mop_lower or "insur" in mop_lower:
-		mop_select = "Asurance"
-	else:
+		mop_select = "Insurance"
+	elif "cash" in mop_lower:
 		mop_select = "Cash"
+	else:
+		mop_select = ""
 
 	# Build initial guarantee details JSON (file URLs populated after physical save)
 	guarantee_info = {
@@ -365,7 +367,7 @@ def register_patient(
 		"mobile": phone,
 		"email": email,
 		"invite_user": 0,
-		"custom_verification_status": "Pending Verification",
+		"custom_verification_status": "Approved",
 		"custom_mode_of_payment": mop_select,
 		"custom_bpjs_number": (bpjs_number or "").strip(),
 		"custom_bpjs_referral_file": "",
@@ -403,8 +405,8 @@ def register_patient(
 		frappe.local.message_log = []
 
 	return {
-		"status": "pending_verification",
-		"message": f"Pendaftaran rekam medis atas nama {patient.patient_name} berhasil dikirim! Silakan tunggu verifikasi oleh Admin SIMRS.",
+		"status": "success",
+		"message": f"Pendaftaran rekam medis atas nama {patient.patient_name} berhasil!",
 		"patient": {
 			"name": patient.name,
 			"patient_name": patient.patient_name,
@@ -413,7 +415,7 @@ def register_patient(
 			"mobile": patient.mobile,
 			"dob": str(patient.dob) if patient.dob else None,
 			"sex": patient.sex,
-			"verification_status": "Pending Verification"
+			"verification_status": "Approved"
 		}
 	}
 
@@ -725,6 +727,84 @@ def on_queue_status_update(doc, method=None):
 			break
 
 @frappe.whitelist(allow_guest=True)
+def update_patient_guarantee(
+	token=None,
+	mode_of_payment=None,
+	insurance_name=None,
+	insurance_card_file=None,
+	company_name=None,
+	company_guarantee_file=None,
+	bpjs_number=None,
+	bpjs_referral_file=None
+):
+	"""
+	API: Memperbarui data penjamin pasien (dipanggil langsung setelah modal)
+	"""
+	if not token:
+		frappe.throw(_("Token autentikasi pasien tidak ditemukan"), frappe.PermissionError)
+
+	payload = verify_token_payload(token)
+	patient_id = payload.get("patient_id")
+	patient = frappe.get_doc("Patient", patient_id)
+
+	guarantee_defaults = parse_patient_guarantee(patient)
+	
+	mop_clean = mode_of_payment or ""
+	mop_lower = mop_clean.lower()
+	if "bpjs" in mop_lower:
+		mop_select = "BPJS"
+	elif "perusahaan" in mop_lower or "company" in mop_lower or "guarantee" in mop_lower:
+		mop_select = "Company Guarantee"
+	elif "asuran" in mop_lower or "insur" in mop_lower:
+		mop_select = "Insurance"
+	elif "cash" in mop_lower:
+		mop_select = "Cash"
+	else:
+		mop_select = ""
+
+	guarantee_defaults.update({
+		"mode_of_payment": mop_clean,
+		"bpjs_number": (bpjs_number or "").strip(),
+		"company_name": (company_name or "").strip(),
+		"insurance_name": (insurance_name or "").strip(),
+	})
+
+	file_updates = {
+		"custom_mode_of_payment": mop_select,
+		"custom_bpjs_number": guarantee_defaults["bpjs_number"],
+		"custom_company_name": guarantee_defaults["company_name"],
+		"custom_insurance_name": guarantee_defaults["insurance_name"]
+	}
+
+	if bpjs_referral_file:
+		saved_file = save_patient_uploaded_file(patient.name, "custom_bpjs_referral_file", bpjs_referral_file)
+		if saved_file:
+			file_updates["custom_bpjs_referral_file"] = saved_file
+			guarantee_defaults["bpjs_referral_file"] = saved_file
+
+	if company_guarantee_file:
+		saved_file = save_patient_uploaded_file(patient.name, "custom_company_guarantee_file", company_guarantee_file)
+		if saved_file:
+			file_updates["custom_company_guarantee_file"] = saved_file
+			guarantee_defaults["company_guarantee_file"] = saved_file
+
+	if insurance_card_file:
+		saved_file = save_patient_uploaded_file(patient.name, "custom_insurance_card_file", insurance_card_file)
+		if saved_file:
+			file_updates["custom_insurance_card_file"] = saved_file
+			guarantee_defaults["insurance_card_file"] = saved_file
+
+	file_updates["patient_details"] = json.dumps(guarantee_defaults)
+	frappe.db.set_value("Patient", patient.name, file_updates)
+	patient.reload()
+
+	return {
+		"status": "success",
+		"message": "Data penjamin berhasil disimpan ke profil pasien",
+		"patient_details": guarantee_defaults
+	}
+
+@frappe.whitelist(allow_guest=True)
 def create_patient_appointment(
 	token=None,
 	practitioner=None,
@@ -732,8 +812,11 @@ def create_patient_appointment(
 	appointment_time=None,
 	mode_of_payment=None,
 	insurance_name=None,
+	insurance_card_file=None,
 	company_name=None,
+	company_guarantee_file=None,
 	bpjs_number=None,
+	bpjs_referral_file=None,
 	patient_notes=None
 ):
 	"""
