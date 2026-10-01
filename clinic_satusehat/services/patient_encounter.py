@@ -74,12 +74,12 @@ def before_patient_encounter_validate(doc, method=None):
 			as_dict=True,
 		)
 		if app:
-			# Validasi: Encounter hanya bisa dibuat pada Hari H Appointment
-			if str(app.get("appointment_date")) != frappe.utils.nowdate():
-				frappe.throw(
-					frappe._("Anjungan hanya dapat dibuat pada tanggal janji temu: {0}").format(app.get("appointment_date")),
-					frappe.ValidationError
-				)
+			# # Validasi: Encounter hanya bisa dibuat pada Hari H Appointment
+			# if str(app.get("appointment_date")) != frappe.utils.nowdate():
+			# 	frappe.throw(
+			# 		frappe._("Anjungan hanya dapat dibuat pada tanggal janji temu: {0}").format(app.get("appointment_date")),
+			# 		frappe.ValidationError
+			# 	)
 
 			if not doc.get("patient"):
 				doc.patient = app.get("patient")
