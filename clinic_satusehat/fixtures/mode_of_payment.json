@@ -3,6 +3,16 @@
   "accounts": [],
   "docstatus": 0,
   "doctype": "Mode of Payment",
+  "enabled": 1,
+  "mode_of_payment": "Insurance",
+  "modified": "2026-09-26 09:46:04.492269",
+  "name": "Insurance",
+  "type": "General"
+ },
+ {
+  "accounts": [],
+  "docstatus": 0,
+  "doctype": "Mode of Payment",
   "enabled": 0,
   "mode_of_payment": "Cheque",
   "modified": "2026-09-13 15:34:27.379046",
@@ -10,15 +20,7 @@
   "type": "Bank"
  },
  {
-  "accounts": [
-   {
-    "company": "SatuSehat",
-    "default_account": "1111.001 - Kas Kecil - S",
-    "parent": "Cash",
-    "parentfield": "accounts",
-    "parenttype": "Mode of Payment"
-   }
-  ],
+  "accounts": [],
   "docstatus": 0,
   "doctype": "Mode of Payment",
   "enabled": 1,
@@ -78,15 +80,7 @@
   "type": "Cash"
  },
  {
-  "accounts": [
-   {
-    "company": "RS Andalan",
-    "default_account": "Cash - RA",
-    "parent": "Company Guarantee",
-    "parentfield": "accounts",
-    "parenttype": "Mode of Payment"
-   }
-  ],
+  "accounts": [],
   "docstatus": 0,
   "doctype": "Mode of Payment",
   "enabled": 1,

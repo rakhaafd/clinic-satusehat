@@ -54,9 +54,6 @@ def save_patient_uploaded_file(patient_id, fieldname, file_data_url):
 	return file_data_url
 
 def parse_patient_guarantee(patient):
-	v_status = getattr(patient, "custom_verification_status", None) or "Approved"
-	v_notes = getattr(patient, "custom_verification_notes", None) or ""
-
 	guarantee = {
 		"mode_of_payment": getattr(patient, "custom_mode_of_payment", None) or "",
 		"bpjs_number": getattr(patient, "custom_bpjs_number", None) or "",
@@ -65,8 +62,8 @@ def parse_patient_guarantee(patient):
 		"company_guarantee_file": getattr(patient, "custom_company_guarantee_file", None) or "",
 		"insurance_name": getattr(patient, "custom_insurance_name", None) or "",
 		"insurance_card_file": getattr(patient, "custom_insurance_card_file", None) or "",
-		"verification_status": v_status,
-		"verification_notes": v_notes
+		"verification_status": "Approved",
+		"verification_notes": ""
 	}
 	details_str = getattr(patient, "patient_details", None)
 	if details_str:
@@ -116,7 +113,7 @@ def send_patient_otp(email=None, identifier=None):
 
 	# Search Patient by email or mobile
 	patient_list = frappe.db.sql("""
-		SELECT name, patient_name, email, mobile, uid, custom_verification_status, custom_verification_notes
+		SELECT name, patient_name, email, mobile, uid
 		FROM `tabPatient`
 		WHERE (email IS NOT NULL AND LOWER(email) = %s)
 		   OR (mobile IS NOT NULL AND mobile = %s)
@@ -128,20 +125,6 @@ def send_patient_otp(email=None, identifier=None):
 		frappe.throw(_("Pasien dengan '{0}' tidak ditemukan di sistem").format(search_key), frappe.DoesNotExistError)
 
 	patient = patient_list[0]
-
-	# Verification status check
-	v_status = (patient.get("custom_verification_status") or "Approved").strip()
-	if v_status in ["Pending Verification", "Pending", "Belum Diverifikasi"]:
-		frappe.throw(
-			_("Akun pasien '{0}' sedang dalam proses verifikasi berkas. Silakan tunggu konfirmasi sebelum login.").format(patient.patient_name),
-			frappe.PermissionError
-		)
-	if v_status in ["Rejected", "Ditolak"]:
-		notes = patient.get("custom_verification_notes") or "Silakan hubungi customer service RS."
-		frappe.throw(
-			_("Pendaftaran akun pasien '{0}' ditolak oleh Admin SIMRS. Catatan: {1}").format(patient.patient_name, notes),
-			frappe.PermissionError
-		)
 
 	target_email = patient.email or search_key
 
@@ -239,7 +222,7 @@ def verify_patient_otp(email=None, identifier=None, otp_code=None):
 
 	# Retrieve Patient details
 	patient_list = frappe.db.sql("""
-		SELECT name, patient_name, email, uid, mobile, dob, sex, blood_group, patient_details, custom_verification_status, custom_verification_notes
+		SELECT name, patient_name, email, uid, mobile, dob, sex, blood_group, patient_details
 		FROM `tabPatient`
 		WHERE (email IS NOT NULL AND LOWER(email) = %s)
 		   OR (mobile IS NOT NULL AND mobile = %s)
@@ -251,13 +234,6 @@ def verify_patient_otp(email=None, identifier=None, otp_code=None):
 		frappe.throw(_("Data pasien tidak ditemukan"), frappe.DoesNotExistError)
 
 	patient = patient_list[0]
-
-	v_status = (patient.get("custom_verification_status") or "Approved").strip()
-	if v_status in ["Pending Verification", "Pending", "Belum Diverifikasi"]:
-		frappe.throw(_("Akun pasien '{0}' sedang dalam proses verifikasi berkas. Silakan tunggu konfirmasi sebelum login.").format(patient.patient_name), frappe.PermissionError)
-	if v_status in ["Rejected", "Ditolak"]:
-		notes = patient.get("custom_verification_notes") or "Silakan hubungi RS."
-		frappe.throw(_("Pendaftaran akun pasien '{0}' ditolak oleh Admin SIMRS. Catatan: {1}").format(patient.patient_name, notes), frappe.PermissionError)
 
 	guarantee_info = parse_patient_guarantee(patient)
 
@@ -354,7 +330,7 @@ def register_patient(
 		"company_guarantee_file": "",
 		"insurance_name": (insurance_name or "").strip(),
 		"insurance_card_file": "",
-		"verification_status": "Pending Verification"
+		"verification_status": "Approved"
 	}
 
 	patient = frappe.get_doc({
@@ -367,7 +343,6 @@ def register_patient(
 		"mobile": phone,
 		"email": email,
 		"invite_user": 0,
-		"custom_verification_status": "Approved",
 		"custom_mode_of_payment": mop_select,
 		"custom_bpjs_number": (bpjs_number or "").strip(),
 		"custom_bpjs_referral_file": "",
