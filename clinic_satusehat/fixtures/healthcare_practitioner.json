@@ -1,6 +1,20 @@
 [
  {
   "accounts": [],
+  "custom_accepted_payment_methods": [
+   {
+    "mode_of_payment": "Cash",
+    "parent": "HLC-PRAC-2026-00001",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "Company Guarantee",
+    "parent": "HLC-PRAC-2026-00001",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   }
+  ],
   "custom_description": "Spesialis Mikrobiologi Klinik lulusan Universitas Indonesia dengan pengalaman 10+ tahun.",
   "default_currency": "IDR",
   "department": "Microbiology",
@@ -21,7 +35,7 @@
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-24 09:48:22.580478",
+  "modified": "2026-10-01 17:20:37.829465",
   "name": "HLC-PRAC-2026-00001",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "7209061211900001",
@@ -52,6 +66,20 @@
  },
  {
   "accounts": [],
+  "custom_accepted_payment_methods": [
+   {
+    "mode_of_payment": "Cash",
+    "parent": "HLC-PRAC-2026-00002",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "BPJS",
+    "parent": "HLC-PRAC-2026-00002",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   }
+  ],
   "custom_description": null,
   "default_currency": "IDR",
   "department": "Nephrology",
@@ -72,7 +100,7 @@
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-23 10:20:30.648623",
+  "modified": "2026-10-01 17:20:37.879590",
   "name": "HLC-PRAC-2026-00002",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3207192310600004",
@@ -103,6 +131,26 @@
  },
  {
   "accounts": [],
+  "custom_accepted_payment_methods": [
+   {
+    "mode_of_payment": "Cash",
+    "parent": "HLC-PRAC-2026-00003",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "Insurance",
+    "parent": "HLC-PRAC-2026-00003",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "BPJS",
+    "parent": "HLC-PRAC-2026-00003",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   }
+  ],
   "custom_description": null,
   "default_currency": "IDR",
   "department": "Neurology",
@@ -123,7 +171,7 @@
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-11 14:46:04.657451",
+  "modified": "2026-10-01 17:20:37.387824",
   "name": "HLC-PRAC-2026-00003",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3217040109800006",
@@ -154,6 +202,20 @@
  },
  {
   "accounts": [],
+  "custom_accepted_payment_methods": [
+   {
+    "mode_of_payment": "Cash",
+    "parent": "HLC-PRAC-2026-00004",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "BPJS",
+    "parent": "HLC-PRAC-2026-00004",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   }
+  ],
   "custom_description": null,
   "default_currency": "IDR",
   "department": "Oncology",
@@ -174,7 +236,7 @@
   "middle_name": null,
   "mobile_no": "",
   "mobile_phone": null,
-  "modified": "2026-09-13 11:31:53.052679",
+  "modified": "2026-10-01 17:20:37.782665",
   "name": "HLC-PRAC-2026-00004",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3519111703800007",

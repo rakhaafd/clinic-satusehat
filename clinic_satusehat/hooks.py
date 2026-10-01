@@ -183,6 +183,12 @@ fixtures = [
 			["name", "like", "SIMRS%"]
 		]
 	},
+	{
+		"dt": "DocType",
+		"filters": [
+			["name", "in", ["Practitioner Mode of Payment"]]
+		]
+	},
 	"Patient",
 	"Healthcare Practitioner",
 	"Mode of Payment",
