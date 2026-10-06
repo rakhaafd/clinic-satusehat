@@ -6,6 +6,11 @@ from frappe.model.document import Document
 
 
 class QueueRegistration(Document):
+	def autoname(self):
+		import frappe
+		hash_str = frappe.generate_hash(length=12).upper()
+		self.name = f"HLC-QUE-REG-{hash_str}"
+
 	def validate(self):
 		if self.reference_encounter:
 			enc = frappe.db.get_value(

@@ -22,7 +22,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "QUE-REG-.YYYY.-",
+   "options": "HLC-QUE-REG-.#####",
    "set_only_once": 1
   },
   {
@@ -156,7 +156,6 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "reference_encounter",
  "track_changes": 1,
  "track_seen": 1
 }

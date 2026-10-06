@@ -143,17 +143,24 @@ after_install = "clinic_satusehat.utils.patient.set_patient_naming_series"
 
 doc_events = {
 	"Patient Registration": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
 		"after_insert": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
 		"on_update": "clinic_satusehat.services.patient_registration.on_patient_registration_save",
 	},
 	"Patient Appointment": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
 	},
 	"Queue Registration": {
 		"on_update": "clinic_satusehat.api.patient_auth.on_queue_status_update",
 	},
 	"Patient": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
+	},
+	"Healthcare Practitioner": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
 	},
 	"Patient Encounter": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
 		"before_insert": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
 		"before_save": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
 		"before_validate": "clinic_satusehat.services.patient_encounter.before_patient_encounter_validate",
@@ -163,6 +170,7 @@ doc_events = {
 		"on_submit": "clinic_satusehat.services.patient_encounter.on_patient_encounter_save",
 	},
 	"Vital Signs": {
+		"autoname": "clinic_satusehat.utils.naming.autoname_hash",
 		"before_insert": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 		"before_save": "clinic_satusehat.services.vital_signs.on_vital_signs_save",
 		"before_validate": "clinic_satusehat.services.vital_signs.on_vital_signs_save",

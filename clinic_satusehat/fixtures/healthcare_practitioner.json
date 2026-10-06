@@ -4,78 +4,13 @@
   "custom_accepted_payment_methods": [
    {
     "mode_of_payment": "Cash",
-    "parent": "HLC-PRAC-2026-00001",
-    "parentfield": "custom_accepted_payment_methods",
-    "parenttype": "Healthcare Practitioner"
-   },
-   {
-    "mode_of_payment": "Company Guarantee",
-    "parent": "HLC-PRAC-2026-00001",
-    "parentfield": "custom_accepted_payment_methods",
-    "parenttype": "Healthcare Practitioner"
-   }
-  ],
-  "custom_description": "Spesialis Mikrobiologi Klinik lulusan Universitas Indonesia dengan pengalaman 10+ tahun.",
-  "default_currency": "IDR",
-  "department": "Microbiology",
-  "designation": null,
-  "docstatus": 0,
-  "doctype": "Healthcare Practitioner",
-  "email_id": "",
-  "employee": null,
-  "fhir_status": null,
-  "first_name": "dr. Alexander",
-  "gender": "Male",
-  "google_calendar": null,
-  "hospital": "RS Andalan",
-  "image": "/files/cowo1.jpeg",
-  "inpatient_visit_charge": 0.0,
-  "inpatient_visit_charge_item": null,
-  "last_name": null,
-  "middle_name": null,
-  "mobile_no": "",
-  "mobile_phone": null,
-  "modified": "2026-10-01 17:20:37.829465",
-  "name": "HLC-PRAC-2026-00001",
-  "naming_series": "HLC-PRAC-.YYYY.-",
-  "nik": "7209061211900001",
-  "office_phone": null,
-  "op_consulting_charge": 0.0,
-  "op_consulting_charge_item": null,
-  "practitioner_name": "dr. Alexander",
-  "practitioner_primary_address": null,
-  "practitioner_primary_contact": null,
-  "practitioner_schedules": [
-   {
-    "parent": "HLC-PRAC-2026-00001",
-    "parentfield": "practitioner_schedules",
-    "parenttype": "Healthcare Practitioner",
-    "schedule": "Alexander Schedule",
-    "service_unit": "Outpatient Department - S"
-   }
-  ],
-  "practitioner_type": "Internal",
-  "primary_address": null,
-  "residence_phone": null,
-  "satusehat_id": "10009880728",
-  "satusehat_resource_id": null,
-  "satusehat_resource_type": null,
-  "status": "Active",
-  "supplier": null,
-  "user_id": null
- },
- {
-  "accounts": [],
-  "custom_accepted_payment_methods": [
-   {
-    "mode_of_payment": "Cash",
-    "parent": "HLC-PRAC-2026-00002",
+    "parent": "HLC-PRC-95EF06FC604F",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    },
    {
     "mode_of_payment": "BPJS",
-    "parent": "HLC-PRAC-2026-00002",
+    "parent": "HLC-PRC-95EF06FC604F",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    }
@@ -101,7 +36,7 @@
   "mobile_no": "",
   "mobile_phone": null,
   "modified": "2026-10-01 17:20:37.879590",
-  "name": "HLC-PRAC-2026-00002",
+  "name": "HLC-PRC-95EF06FC604F",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3207192310600004",
   "office_phone": null,
@@ -112,7 +47,7 @@
   "practitioner_primary_contact": null,
   "practitioner_schedules": [
    {
-    "parent": "HLC-PRAC-2026-00002",
+    "parent": "HLC-PRC-95EF06FC604F",
     "parentfield": "practitioner_schedules",
     "parenttype": "Healthcare Practitioner",
     "schedule": "Nicholas Schedule",
@@ -134,19 +69,19 @@
   "custom_accepted_payment_methods": [
    {
     "mode_of_payment": "Cash",
-    "parent": "HLC-PRAC-2026-00003",
+    "parent": "HLC-PRC-D335A25DF5FC",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    },
    {
     "mode_of_payment": "Insurance",
-    "parent": "HLC-PRAC-2026-00003",
+    "parent": "HLC-PRC-D335A25DF5FC",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    },
    {
     "mode_of_payment": "BPJS",
-    "parent": "HLC-PRAC-2026-00003",
+    "parent": "HLC-PRC-D335A25DF5FC",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    }
@@ -172,7 +107,7 @@
   "mobile_no": "",
   "mobile_phone": null,
   "modified": "2026-10-01 17:20:37.387824",
-  "name": "HLC-PRAC-2026-00003",
+  "name": "HLC-PRC-D335A25DF5FC",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3217040109800006",
   "office_phone": null,
@@ -183,7 +118,7 @@
   "practitioner_primary_contact": null,
   "practitioner_schedules": [
    {
-    "parent": "HLC-PRAC-2026-00003",
+    "parent": "HLC-PRC-D335A25DF5FC",
     "parentfield": "practitioner_schedules",
     "parenttype": "Healthcare Practitioner",
     "schedule": "Olivia Schedule",
@@ -205,13 +140,13 @@
   "custom_accepted_payment_methods": [
    {
     "mode_of_payment": "Cash",
-    "parent": "HLC-PRAC-2026-00004",
+    "parent": "HLC-PRC-EF2345B07ABC",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    },
    {
     "mode_of_payment": "BPJS",
-    "parent": "HLC-PRAC-2026-00004",
+    "parent": "HLC-PRC-EF2345B07ABC",
     "parentfield": "custom_accepted_payment_methods",
     "parenttype": "Healthcare Practitioner"
    }
@@ -237,7 +172,7 @@
   "mobile_no": "",
   "mobile_phone": null,
   "modified": "2026-10-01 17:20:37.782665",
-  "name": "HLC-PRAC-2026-00004",
+  "name": "HLC-PRC-EF2345B07ABC",
   "naming_series": "HLC-PRAC-.YYYY.-",
   "nik": "3519111703800007",
   "office_phone": null,
@@ -248,7 +183,7 @@
   "practitioner_primary_contact": null,
   "practitioner_schedules": [
    {
-    "parent": "HLC-PRAC-2026-00004",
+    "parent": "HLC-PRC-EF2345B07ABC",
     "parentfield": "practitioner_schedules",
     "parenttype": "Healthcare Practitioner",
     "schedule": "Alicia Schedule",
@@ -259,6 +194,71 @@
   "primary_address": null,
   "residence_phone": null,
   "satusehat_id": "10012572188",
+  "satusehat_resource_id": null,
+  "satusehat_resource_type": null,
+  "status": "Active",
+  "supplier": null,
+  "user_id": null
+ },
+ {
+  "accounts": [],
+  "custom_accepted_payment_methods": [
+   {
+    "mode_of_payment": "Cash",
+    "parent": "HLC-PRC-D14F08607CD9",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   },
+   {
+    "mode_of_payment": "Company Guarantee",
+    "parent": "HLC-PRC-D14F08607CD9",
+    "parentfield": "custom_accepted_payment_methods",
+    "parenttype": "Healthcare Practitioner"
+   }
+  ],
+  "custom_description": "Spesialis Mikrobiologi Klinik lulusan Universitas Indonesia dengan pengalaman 10+ tahun.",
+  "default_currency": "IDR",
+  "department": "Microbiology",
+  "designation": null,
+  "docstatus": 0,
+  "doctype": "Healthcare Practitioner",
+  "email_id": "",
+  "employee": null,
+  "fhir_status": null,
+  "first_name": "dr. Alexander",
+  "gender": "Male",
+  "google_calendar": null,
+  "hospital": "RS Andalan",
+  "image": "/files/cowo1.jpeg",
+  "inpatient_visit_charge": 0.0,
+  "inpatient_visit_charge_item": null,
+  "last_name": null,
+  "middle_name": null,
+  "mobile_no": "",
+  "mobile_phone": null,
+  "modified": "2026-10-01 17:20:37.829465",
+  "name": "HLC-PRC-D14F08607CD9",
+  "naming_series": "HLC-PRAC-.YYYY.-",
+  "nik": "7209061211900001",
+  "office_phone": null,
+  "op_consulting_charge": 0.0,
+  "op_consulting_charge_item": null,
+  "practitioner_name": "dr. Alexander",
+  "practitioner_primary_address": null,
+  "practitioner_primary_contact": null,
+  "practitioner_schedules": [
+   {
+    "parent": "HLC-PRC-D14F08607CD9",
+    "parentfield": "practitioner_schedules",
+    "parenttype": "Healthcare Practitioner",
+    "schedule": "Alexander Schedule",
+    "service_unit": "Outpatient Department - S"
+   }
+  ],
+  "practitioner_type": "Internal",
+  "primary_address": null,
+  "residence_phone": null,
+  "satusehat_id": "10009880728",
   "satusehat_resource_id": null,
   "satusehat_resource_type": null,
   "status": "Active",
